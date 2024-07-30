@@ -10,6 +10,8 @@ import UIKit
 
 final class TrackerViewController: UIViewController {
     
+    var categories: [TrackerCategory] = []
+    
     lazy var addTrecarButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
