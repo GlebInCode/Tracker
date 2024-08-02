@@ -20,6 +20,18 @@ final class TrackerViewController: UIViewController {
         return button
     }()
     
+    lazy var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.layer.cornerRadius = 8
+        datePicker.layer.masksToBounds = true
+        datePicker.datePickerMode = .date
+        datePicker.locale = Locale(identifier: "ru_RU")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        return datePicker
+    }()
+    
     lazy var titleLable: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
@@ -84,17 +96,29 @@ final class TrackerViewController: UIViewController {
         
     }
     
+    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+        let selectedDate = sender.date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let formattedDate = dateFormatter.string(from: selectedDate)
+        print("Выбранная дата: \(formattedDate)")
+    }
+    
     private func setupConstraints() {
         view.addSubview(addTrecarButton)
         view.addSubview(titleLable)
         view.addSubview(serchLine)
         view.addSubview(stackNoContent)
+        view.addSubview(datePicker)
         
         NSLayoutConstraint.activate([
             addTrecarButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
             addTrecarButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             addTrecarButton.widthAnchor.constraint(equalToConstant: 42),
             addTrecarButton.heightAnchor.constraint(equalToConstant: 42),
+            
+            datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            datePicker.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             
             titleLable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             titleLable.topAnchor.constraint(equalTo: addTrecarButton.bottomAnchor),
