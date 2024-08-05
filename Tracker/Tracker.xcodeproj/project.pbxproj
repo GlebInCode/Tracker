@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F78AC5462C5CE13000FD78D5 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */; };
+		F78AC5482C60D67700FD78D5 /* CreatingTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC5472C60D67600FD78D5 /* CreatingTrackerViewController.swift */; };
+		F78AC54A2C60DB7500FD78D5 /* CustomBlakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC5492C60DB7500FD78D5 /* CustomBlakButton.swift */; };
+		F78AC54D2C60EA8D00FD78D5 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC54C2C60EA8D00FD78D5 /* Colors.swift */; };
+		F78AC54F2C60FA8F00FD78D5 /* CustomTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC54E2C60FA8F00FD78D5 /* CustomTitle.swift */; };
 		F7D0C69F2C5248E500262406 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0C69E2C5248E500262406 /* AppDelegate.swift */; };
 		F7D0C6A12C5248E500262406 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0C6A02C5248E500262406 /* SceneDelegate.swift */; };
 		F7D0C6A32C5248E500262406 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0C6A22C5248E500262406 /* TabBarController.swift */; };
@@ -20,6 +25,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
+		F78AC5472C60D67600FD78D5 /* CreatingTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingTrackerViewController.swift; sourceTree = "<group>"; };
+		F78AC5492C60DB7500FD78D5 /* CustomBlakButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBlakButton.swift; sourceTree = "<group>"; };
+		F78AC54C2C60EA8D00FD78D5 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		F78AC54E2C60FA8F00FD78D5 /* CustomTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitle.swift; sourceTree = "<group>"; };
 		F7D0C69B2C5248E500262406 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7D0C69E2C5248E500262406 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7D0C6A02C5248E500262406 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +55,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F78AC54B2C60EA6700FD78D5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F78AC5492C60DB7500FD78D5 /* CustomBlakButton.swift */,
+				F78AC54E2C60FA8F00FD78D5 /* CustomTitle.swift */,
+				F78AC54C2C60EA8D00FD78D5 /* Colors.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		F7D0C6922C5248E500262406 = {
 			isa = PBXGroup;
 			children = (
@@ -67,9 +87,12 @@
 				F7D0C69E2C5248E500262406 /* AppDelegate.swift */,
 				F7D0C6A02C5248E500262406 /* SceneDelegate.swift */,
 				F7D0C6A22C5248E500262406 /* TabBarController.swift */,
+				F78AC5472C60D67600FD78D5 /* CreatingTrackerViewController.swift */,
 				F7D0C6D22C526A2900262406 /* TrackerViewController.swift */,
+				F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */,
 				F7D0C6D42C526A5000262406 /* StaticticsViewController.swift */,
 				F7D0C71C2C59226D00262406 /* Structures */,
+				F78AC54B2C60EA6700FD78D5 /* Helpers */,
 				F7D0C6A72C5248E900262406 /* Assets.xcassets */,
 				F7D0C6A92C5248E900262406 /* LaunchScreen.storyboard */,
 				F7D0C6AC2C5248E900262406 /* Info.plist */,
@@ -157,11 +180,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F78AC5482C60D67700FD78D5 /* CreatingTrackerViewController.swift in Sources */,
+				F78AC54D2C60EA8D00FD78D5 /* Colors.swift in Sources */,
 				F7D0C71E2C5922B200262406 /* Tracker.swift in Sources */,
 				F7D0C7222C5922C700262406 /* TrackerRecord.swift in Sources */,
 				F7D0C6D52C526A5000262406 /* StaticticsViewController.swift in Sources */,
+				F78AC54F2C60FA8F00FD78D5 /* CustomTitle.swift in Sources */,
 				F7D0C6A32C5248E500262406 /* TabBarController.swift in Sources */,
+				F78AC5462C5CE13000FD78D5 /* TrackerCollectionViewCell.swift in Sources */,
 				F7D0C69F2C5248E500262406 /* AppDelegate.swift in Sources */,
+				F78AC54A2C60DB7500FD78D5 /* CustomBlakButton.swift in Sources */,
 				F7D0C6A12C5248E500262406 /* SceneDelegate.swift in Sources */,
 				F7D0C6D32C526A2900262406 /* TrackerViewController.swift in Sources */,
 				F7D0C7202C5922BD00262406 /* TrackerCategory.swift in Sources */,

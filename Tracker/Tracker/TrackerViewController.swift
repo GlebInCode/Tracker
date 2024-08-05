@@ -12,6 +12,8 @@ final class TrackerViewController: UIViewController {
     
     var categories: [TrackerCategory] = []
     
+    private let cellIdentifier = "cell"
+    
     lazy var addTrecarButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +47,7 @@ final class TrackerViewController: UIViewController {
         textField.textColor = UIColor(named: "Gray")
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         textField.placeholder = "Поиск"
-        textField.backgroundColor = UIColor(named: "Background")
+        textField.backgroundColor = .ypBackground
         textField.layer.cornerRadius = 9
         textField.layer.masksToBounds = true
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +61,12 @@ final class TrackerViewController: UIViewController {
         textField.leftViewMode = .always
         
         return textField
+    }()
+    
+    lazy var trackerArea: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var imageNoContent: UIImageView = {
@@ -86,14 +94,30 @@ final class TrackerViewController: UIViewController {
         return stack
     }()
     
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        
+        view.backgroundColor = .ypWhite
         setupConstraints()
     }
     
     @IBAction private func addTracker() {
+        self.present(CreatingTrackerViewController(), animated: true, completion: nil)
         
+//        collectionView.performBatchUpdates {
+//            collectionView.insertItems(at: [IndexPath(item: count, section: 0)])
+//        }
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -106,10 +130,13 @@ final class TrackerViewController: UIViewController {
     
     private func setupConstraints() {
         view.addSubview(addTrecarButton)
+        view.addSubview(datePicker)
         view.addSubview(titleLable)
         view.addSubview(serchLine)
-        view.addSubview(stackNoContent)
-        view.addSubview(datePicker)
+        view.addSubview(trackerArea)
+//        trackerArea.addSubview(stackNoContent)
+        trackerArea.addSubview(collectionView)
+        
         
         NSLayoutConstraint.activate([
             addTrecarButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
@@ -128,10 +155,34 @@ final class TrackerViewController: UIViewController {
             serchLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             serchLine.heightAnchor.constraint(equalToConstant: 36),
             
-            stackNoContent.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackNoContent.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 69)
+            trackerArea.topAnchor.constraint(equalTo: serchLine.bottomAnchor, constant: 10),
+            trackerArea.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            trackerArea.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            trackerArea.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+//            stackNoContent.centerXAnchor.constraint(equalTo: trackerArea.centerXAnchor),
+//            stackNoContent.centerYAnchor.constraint(equalTo: trackerArea.centerYAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: trackerArea.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: trackerArea.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: trackerArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trackerArea.trailingAnchor)
         ])
     }
-    
-    
+
 }
+
+extension TrackerViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TrackerCollectionViewCell
+        
+        //cell?.titleLabel.text = show[indexPath.row]
+        return cell!
+    }
+}
+
+extension TrackerViewController: UICollectionViewDelegateFlowLayout {}
