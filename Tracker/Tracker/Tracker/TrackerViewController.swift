@@ -14,7 +14,7 @@ final class TrackerViewController: UIViewController {
     
     private let cellIdentifier = "cell"
     
-    lazy var addTrecarButton: UIButton = {
+    private lazy var addTrecarButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "AddTracker"), for: .normal)
@@ -22,7 +22,7 @@ final class TrackerViewController: UIViewController {
         return button
     }()
     
-    lazy var datePicker: UIDatePicker = {
+    private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.layer.cornerRadius = 8
@@ -34,7 +34,7 @@ final class TrackerViewController: UIViewController {
         return datePicker
     }()
     
-    lazy var titleLable: UILabel = {
+    private lazy var titleLable: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
         lable.text = "Трекеры"
@@ -42,7 +42,7 @@ final class TrackerViewController: UIViewController {
         return lable
     }()
     
-    lazy var serchLine: UITextField = {
+    private lazy var serchLine: UITextField = {
         let textField = UITextField()
         textField.textColor = UIColor(named: "Gray")
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -63,20 +63,20 @@ final class TrackerViewController: UIViewController {
         return textField
     }()
     
-    lazy var trackerArea: UIView = {
+    private lazy var trackerArea: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    lazy var imageNoContent: UIImageView = {
+    private lazy var imageNoContent: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "NoContent")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    lazy var lableNoContent: UILabel = {
+    private lazy var lableNoContent: UILabel = {
         let lable = UILabel()
         lable.text = "Что будем отслеживать?"
         lable.font = UIFont.systemFont(ofSize: 12, weight: .medium)
@@ -84,7 +84,7 @@ final class TrackerViewController: UIViewController {
         return lable
     }()
     
-    lazy var stackNoContent: UIStackView = {
+    private lazy var stackNoContent: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [imageNoContent, lableNoContent])
         stack.axis = .vertical
         stack.spacing = 10
@@ -94,7 +94,7 @@ final class TrackerViewController: UIViewController {
         return stack
     }()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false

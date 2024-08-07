@@ -8,23 +8,28 @@
 import Foundation
 import UIKit
 
+enum TrackerType {
+    case habit
+    case event
+}
+
 final class CreatingTrackerViewController: UIViewController {
     
-    lazy var createHabitButton: UIButton = {
+    private lazy var createHabitButton: UIButton = {
         let button = CustomBlakButton()
         button.setTitle("Привычка", for: .normal)
         button.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
         return button
     }()
     
-    lazy var createEventButton: UIButton = {
+    private lazy var createEventButton: UIButton = {
         let button = CustomBlakButton()
         button.setTitle("Нерегулярное событие", for: .normal)
         button.addTarget(self, action: #selector(createEvent), for: .touchUpInside)
         return button
     }()
     
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [createEventButton, createHabitButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -32,7 +37,7 @@ final class CreatingTrackerViewController: UIViewController {
         return stackView
     }()
     
-    lazy var titleView: UILabel = {
+    private lazy var titleView: UILabel = {
         let lable = CustomTitle()
         lable.text = "Создание трекера"
         return lable
@@ -46,11 +51,17 @@ final class CreatingTrackerViewController: UIViewController {
     }
     
     @IBAction private func createHabit() {
-//        self.present(, animated: true, completion: nil)
+        let settingHabitViewController = SettingHabitViewController()
+        //let segue = UIStoryboardSegue(identifier: "showSettingHabitViewController", source: self, destination: settingHabitViewController)
+        settingHabitViewController.trackerType = .habit
+        self.present(settingHabitViewController, animated: true, completion: nil)
     }
     
     @IBAction private func createEvent() {
-//        self.present(, animated: true, completion: nil)
+        let settingHabitViewController = SettingHabitViewController()
+        //let segue = UIStoryboardSegue(identifier: "showSettingHabitViewController", source: self, destination: settingHabitViewController)
+        settingHabitViewController.trackerType = .event
+        self.present(settingHabitViewController, animated: true, completion: nil)
     }
     
     private func setupLayout() {
