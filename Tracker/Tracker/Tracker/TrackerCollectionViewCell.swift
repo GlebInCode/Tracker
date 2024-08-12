@@ -8,14 +8,23 @@
 import Foundation
 import UIKit
 
+protocol TrackerCellDelegate {
+    func didTapAddButton(_ id: UUID, _ status: Bool) -> Bool
+}
+
 final class TrackerCollectionViewCell: UICollectionViewCell {
     
-    lazy var namedTrackerView: UIView = {
+    var delegate: TrackerCellDelegate?
+    var color: UIColor = .ypBlack
+    var id: UUID?
+    var status: Bool = false
+    
+    private lazy var namedTrackerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
-        view.backgroundColor = .ypBlack
+        view.backgroundColor = color
         return view
     }()
     
@@ -24,8 +33,9 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         lable.translatesAutoresizingMaskIntoConstraints = false
         lable.layer.cornerRadius = 12
         lable.layer.masksToBounds = true
+        lable.textAlignment = .center
         lable.backgroundColor = .ypBackground
-        lable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        lable.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         lable.text = "❤️"
         return lable
     }()
@@ -34,7 +44,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
         lable.textColor = .ypWhite
-        lable.text = "ksjdf"
+        lable.numberOfLines = 2
+        lable.baselineAdjustment = .alignBaselines
         lable.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return lable
     }()
@@ -51,11 +62,11 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     lazy var addButtonCell: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
+        button.backgroundColor = color
         button.layer.cornerRadius = 17
         button.layer.masksToBounds = true
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.addTarget(self, action: #selector(addTracker), for: .touchUpInside)
+        button.tintColor = .ypWhite
+        button.addTarget(self, action: #selector(addButtonTap), for: .touchUpInside)
         return button
     }()
     
@@ -68,7 +79,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+            
         contentView.addSubview(namedTrackerView)
         namedTrackerView.addSubview(smail)
         namedTrackerView.addSubview(nameLable)
@@ -80,8 +91,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             namedTrackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             namedTrackerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             namedTrackerView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            namedTrackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             namedTrackerView.heightAnchor.constraint(equalToConstant: 90),
-            namedTrackerView.widthAnchor.constraint(equalToConstant: 167),
             
             smail.leadingAnchor.constraint(equalTo: namedTrackerView.leadingAnchor, constant: 12),
             smail.topAnchor.constraint(equalTo: namedTrackerView.topAnchor, constant: 12),
@@ -89,16 +100,17 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             smail.widthAnchor.constraint(equalToConstant: 24),
             
             nameLable.leadingAnchor.constraint(equalTo: namedTrackerView.leadingAnchor, constant: 12),
-            nameLable.topAnchor.constraint(equalTo: namedTrackerView.topAnchor, constant: 8),
-            nameLable.heightAnchor.constraint(equalToConstant: 34),
-            nameLable.widthAnchor.constraint(equalToConstant: 143),
+            nameLable.topAnchor.constraint(equalTo: namedTrackerView.topAnchor, constant: 44),
+            nameLable.trailingAnchor.constraint(equalTo: namedTrackerView.trailingAnchor, constant: -12),
+            nameLable.bottomAnchor.constraint(equalTo: namedTrackerView.bottomAnchor, constant: -12),
             
             stackCounterTracker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             stackCounterTracker.topAnchor.constraint(equalTo: namedTrackerView.bottomAnchor, constant: 8),
-            stackCounterTracker.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 12),
+            stackCounterTracker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             stackCounterTracker.heightAnchor.constraint(equalToConstant: 34),
-            stackCounterTracker.widthAnchor.constraint(equalToConstant: 143)
-
+            
+            addButtonCell.heightAnchor.constraint(equalToConstant: 34),
+            addButtonCell.widthAnchor.constraint(equalToConstant: 34)
         ])
     }
     
@@ -106,8 +118,22 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @IBAction func addButtonTap(_ sender: UIButton) {
+        self.addButtonCell.isEnabled = false
+        self.status = self.status ? false : true
+        self.apdateMark()
+        guard let delegate, let id else {
+            return
+        }
+        self.status = delegate.didTapAddButton(id, status)
+        self.apdateMark()
+        self.addButtonCell.isEnabled = true
+        }
     
-    @IBAction private func addTracker() {
-        
+    func apdateMark() {
+        let image = status ? UIImage(named: "Done") : UIImage(systemName: "plus")
+        addButtonCell.setImage(image, for: .normal)
+        addButtonCell.alpha = status ? 0.3 : 1
     }
+
 }

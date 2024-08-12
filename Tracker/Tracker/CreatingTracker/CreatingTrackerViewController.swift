@@ -13,7 +13,13 @@ enum TrackerType {
     case event
 }
 
+protocol CreatingTrackerViewControllerDelegate: AnyObject {
+    func passCategories() -> [TrackerCategory]
+}
+
 final class CreatingTrackerViewController: UIViewController {
+    
+    weak var delegate: CreatingTrackerViewControllerDelegate?
     
     private lazy var createHabitButton: UIButton = {
         let button = CustomBlakButton()
@@ -30,7 +36,7 @@ final class CreatingTrackerViewController: UIViewController {
     }()
     
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [createEventButton, createHabitButton])
+        let stackView = UIStackView(arrangedSubviews: [createHabitButton, createEventButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 16
@@ -52,15 +58,15 @@ final class CreatingTrackerViewController: UIViewController {
     
     @IBAction private func createHabit() {
         let settingHabitViewController = SettingHabitViewController()
-        //let segue = UIStoryboardSegue(identifier: "showSettingHabitViewController", source: self, destination: settingHabitViewController)
         settingHabitViewController.trackerType = .habit
+        settingHabitViewController.categories = delegate?.passCategories() ?? []
         self.present(settingHabitViewController, animated: true, completion: nil)
     }
     
     @IBAction private func createEvent() {
         let settingHabitViewController = SettingHabitViewController()
-        //let segue = UIStoryboardSegue(identifier: "showSettingHabitViewController", source: self, destination: settingHabitViewController)
         settingHabitViewController.trackerType = .event
+        settingHabitViewController.categories = delegate?.passCategories() ?? []
         self.present(settingHabitViewController, animated: true, completion: nil)
     }
     
