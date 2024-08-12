@@ -9,6 +9,8 @@ import UIKit
 
 final class TrackerCollectionViewHeader: UICollectionReusableView {
     
+    // MARK: - UI Components
+    
     lazy var textLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -17,6 +19,8 @@ final class TrackerCollectionViewHeader: UICollectionReusableView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    // MARK: - Initializers
     
     override init(frame: CGRect) {
         super.init(frame: frame)

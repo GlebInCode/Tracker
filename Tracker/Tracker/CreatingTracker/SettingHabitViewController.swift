@@ -10,15 +10,18 @@ import UIKit
 
 final class SettingHabitViewController: UIViewController {
     
-    var newCategory: TrackerCategory?
+    // MARK: - Public Properties
     
     var trackerType: TrackerType?
-    
-    var cellsTable: [String] = []
-
     var categories: [TrackerCategory] = []
-
     
+    // MARK: - Private Properties
+
+    private var cellsTable: [String] = []
+    private var newCategory: TrackerCategory?
+    private var currentCategory: Int?
+    private var schedule: String = ""
+    private var nameTracker: String = ""
     private var daySelections: [DayOfWeek: Bool] = [.monday : false,
                                                     .tuesday : false,
                                                     .wednesday : false,
@@ -36,11 +39,8 @@ final class SettingHabitViewController: UIViewController {
         .sunday
     ]
     
-    private var currentCategory: Int?
-    private var schedule: String = ""
-    private var nameTracker: String = ""
-    
-    
+    // MARK: - UI Components
+
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
         if let trackerType = trackerType {
@@ -98,6 +98,8 @@ final class SettingHabitViewController: UIViewController {
     
     private let tableView = ParameterTable(frame: .zero, style: .plain)
     
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -113,12 +115,8 @@ final class SettingHabitViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .updateCategory, object: nil)
     }
     
-    @objc private func updateCategory(_ notification: Notification) {
-        if let newCategory = notification.object as? [TrackerCategory] {
-            categories = newCategory
-        }
-    }
-    
+    // MARK: - IBActions
+
     @IBAction private func create() {
         createCategory()
         let notification = Notification(name: .addCategory, object: newCategory)
@@ -128,18 +126,26 @@ final class SettingHabitViewController: UIViewController {
         }
     }
     
+    @IBAction private func cancellation() {
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    @objc private func updateCategory(_ notification: Notification) {
+        if let newCategory = notification.object as? [TrackerCategory] {
+            categories = newCategory
+        }
+    }
+    
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             nameTracker = text
             canPerformAction()
         } else {
             nameTracker = ""
-        }
-    }
-    
-    @IBAction private func cancellation() {
-        if let window = UIApplication.shared.windows.first {
-            window.rootViewController?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -198,7 +204,6 @@ final class SettingHabitViewController: UIViewController {
         case nil:
             return
         }
-        
     }
     
     private func defineCellsTable(){
@@ -218,6 +223,8 @@ final class SettingHabitViewController: UIViewController {
         tableView.isScrollEnabled = false
     }
     
+    // MARK: - View Layout
+
     private func setupLayout() {
         view.addSubview(titleView)
         view.addSubview(stackButton)
@@ -246,6 +253,8 @@ final class SettingHabitViewController: UIViewController {
     }
 }
 
+// MARK: - Extension: UITextFieldDelegate
+
 extension SettingHabitViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -254,6 +263,8 @@ extension SettingHabitViewController: UITextFieldDelegate {
         return newLength <= 38
     }
 }
+
+// MARK: - Extension: UITableViewDataSource
 
 extension SettingHabitViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -286,6 +297,8 @@ extension SettingHabitViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Extension: UITableViewDelegate
+
 extension SettingHabitViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -306,6 +319,8 @@ extension SettingHabitViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - Extension: CategoryTrackerViewControllerDelegate
+
 extension SettingHabitViewController: CategoryTrackerViewControllerDelegate {
     func updateСurrentCategory(_ indexPath: IndexPath) {
         currentCategory = indexPath.row
@@ -314,6 +329,8 @@ extension SettingHabitViewController: CategoryTrackerViewControllerDelegate {
         canPerformAction()
     }
 }
+
+// MARK: - Extension: HabitScheduleViewControllerDelegate
 
 extension SettingHabitViewController: HabitScheduleViewControllerDelegate {
     func updateSchedule(_ daysWeek: [DayOfWeek: Bool]) {
@@ -355,6 +372,8 @@ extension SettingHabitViewController: HabitScheduleViewControllerDelegate {
         return scheduleString
     }
 }
+
+// MARK: - Extension: Notification.Name
 
 extension Notification.Name {
     static let updateCategory = Notification.Name("updateCategory")

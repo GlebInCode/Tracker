@@ -5,13 +5,16 @@
 //  Created by Глеб Хамин on 05.08.2024.
 //
 
-import Foundation
 import UIKit
+
+// MARK: - Enum: TrackerType
 
 enum TrackerType {
     case habit
     case event
 }
+
+// MARK: - Protocol: CreatingTrackerViewControllerDelegate
 
 protocol CreatingTrackerViewControllerDelegate: AnyObject {
     func passCategories() -> [TrackerCategory]
@@ -19,7 +22,11 @@ protocol CreatingTrackerViewControllerDelegate: AnyObject {
 
 final class CreatingTrackerViewController: UIViewController {
     
+    // MARK: - Public Properties
+    
     weak var delegate: CreatingTrackerViewControllerDelegate?
+    
+    // MARK: - UI Components
     
     private lazy var createHabitButton: UIButton = {
         let button = CustomBlakButton()
@@ -49,13 +56,17 @@ final class CreatingTrackerViewController: UIViewController {
         return lable
     }()
     
+    // MARK: - Initializers
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
         setupLayout()
     }
-    
+   
+    // MARK: - IBActions
+
     @IBAction private func createHabit() {
         let settingHabitViewController = SettingHabitViewController()
         settingHabitViewController.trackerType = .habit
@@ -70,6 +81,8 @@ final class CreatingTrackerViewController: UIViewController {
         self.present(settingHabitViewController, animated: true, completion: nil)
     }
     
+    // MARK: - Public Methods
+
     private func setupLayout() {
         view.addSubview(titleView)
         view.addSubview(stackView)

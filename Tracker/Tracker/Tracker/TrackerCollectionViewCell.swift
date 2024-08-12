@@ -8,16 +8,22 @@
 import Foundation
 import UIKit
 
+// MARK: - Protocol: TrackerCellDelegate
+
 protocol TrackerCellDelegate {
     func didTapAddButton(_ id: UUID, _ status: Bool) -> Bool
 }
 
 final class TrackerCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Public Properties
+    
     var delegate: TrackerCellDelegate?
     var color: UIColor = .ypBlack
     var id: UUID?
     var status: Bool = false
+    
+    // MARK: - UI Components
     
     private lazy var namedTrackerView: UIView = {
         let view = UIView()
@@ -77,15 +83,47 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
+    // MARK: - Initializers
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-            
+        
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func addButtonTap(_ sender: UIButton) {
+        self.addButtonCell.isEnabled = false
+        self.status = self.status ? false : true
+        self.apdateMark()
+        guard let delegate, let id else {
+            return
+        }
+        self.status = delegate.didTapAddButton(id, status)
+        self.apdateMark()
+        self.addButtonCell.isEnabled = true
+    }
+    
+    // MARK: - Public Methods
+    
+    func apdateMark() {
+        let image = status ? UIImage(named: "Done") : UIImage(systemName: "plus")
+        addButtonCell.setImage(image, for: .normal)
+        addButtonCell.alpha = status ? 0.3 : 1
+    }
+    
+    // MARK: - View Layout
+    
+    private func setupConstraints() {
         contentView.addSubview(namedTrackerView)
         namedTrackerView.addSubview(smail)
         namedTrackerView.addSubview(nameLable)
         contentView.addSubview(stackCounterTracker)
-        
-
         
         NSLayoutConstraint.activate([
             namedTrackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -113,27 +151,4 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             addButtonCell.widthAnchor.constraint(equalToConstant: 34)
         ])
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    @IBAction func addButtonTap(_ sender: UIButton) {
-        self.addButtonCell.isEnabled = false
-        self.status = self.status ? false : true
-        self.apdateMark()
-        guard let delegate, let id else {
-            return
-        }
-        self.status = delegate.didTapAddButton(id, status)
-        self.apdateMark()
-        self.addButtonCell.isEnabled = true
-        }
-    
-    func apdateMark() {
-        let image = status ? UIImage(named: "Done") : UIImage(systemName: "plus")
-        addButtonCell.setImage(image, for: .normal)
-        addButtonCell.alpha = status ? 0.3 : 1
-    }
-
 }

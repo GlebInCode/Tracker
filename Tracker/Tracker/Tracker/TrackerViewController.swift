@@ -10,17 +10,21 @@ import UIKit
 
 final class TrackerViewController: UIViewController {
     
-    let calendar = Calendar(identifier: .gregorian)
+    // MARK: - IBOutlets
+    // MARK: - Public Properties
     
     var categories: [TrackerCategory] = []
-    
     var completedTrackers: [TrackerRecord] = []
     var executedTrackerIds: Set<UUID> = []
     var selectedDate = Date()
     
-    var targetDayTrackers: [TrackerCategory] = []
+    // MARK: - Private Properties
     
+    private let calendar = Calendar(identifier: .gregorian)
+    private var targetDayTrackers: [TrackerCategory] = []
     private let cellIdentifier = "cell"
+    
+    // MARK: - UI Components
     
     private lazy var addTrecarButton: UIButton = {
         let button = UIButton()
@@ -95,6 +99,9 @@ final class TrackerViewController: UIViewController {
         return collectionView
     }()
     
+    // MARK: - Initializers
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
@@ -109,6 +116,8 @@ final class TrackerViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .addCategory, object: nil)
     }
     
+    // MARK: - IBActions
+    
     @IBAction private func addTracker() {
         NotificationCenter.default.removeObserver(self, name: .addCategory, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(addCategory(_:)), name: .addCategory, object: nil)
@@ -116,6 +125,17 @@ final class TrackerViewController: UIViewController {
         creatingTrackerVC.delegate = self
         self.present(creatingTrackerVC, animated: true, completion: nil)
     }
+    
+    // MARK: - Public Methods
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int) -> CGSize {
+            return CGSize(width: collectionView.frame.width, height: 46)
+        }
+    
+    // MARK: - Private Methods
     
     @objc private func addCategory(_ notification: Notification) {
         if let newCategory = notification.object as? TrackerCategory {
@@ -227,6 +247,8 @@ final class TrackerViewController: UIViewController {
         }
     }
     
+    // MARK: - View Layout
+    
     private func setupConstraints() {
         view.addSubview(addTrecarButton)
         view.addSubview(datePicker)
@@ -274,15 +296,9 @@ final class TrackerViewController: UIViewController {
             noDataView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        referenceSizeForHeaderInSection section: Int) -> CGSize {
-            return CGSize(width: collectionView.frame.width, height: 46)
-        }
-    
 }
+
+// MARK: - Extension: UICollectionViewDataSource
 
 extension TrackerViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -342,7 +358,11 @@ extension TrackerViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - Extension: UICollectionViewDelegateFlowLayout
+
 extension TrackerViewController: UICollectionViewDelegateFlowLayout {}
+
+// MARK: - Extension: TrackerCellDelegate
 
 extension TrackerViewController: TrackerCellDelegate {
     func didTapAddButton(_ id: UUID, _ status: Bool) -> Bool{
@@ -384,12 +404,16 @@ extension TrackerViewController: TrackerCellDelegate {
     }
 }
 
-extension Notification.Name {
-    static let addCategory = Notification.Name("addCategory")
-}
+// MARK: - Extension: CreatingTrackerViewControllerDelegate
 
 extension TrackerViewController: CreatingTrackerViewControllerDelegate {
     func passCategories() -> [TrackerCategory] {
         return categories
     }
+}
+
+// MARK: - Extension: Notification.Name
+
+extension Notification.Name {
+    static let addCategory = Notification.Name("addCategory")
 }

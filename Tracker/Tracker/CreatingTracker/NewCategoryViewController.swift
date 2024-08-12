@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - Protocol: NewCategoryViewControllerDelegate
+
 protocol NewCategoryViewControllerDelegate: AnyObject {
     func updateView(_ indexPath: IndexPath)
     func updateTable()
@@ -14,8 +16,12 @@ protocol NewCategoryViewControllerDelegate: AnyObject {
 
 final class NewCategoryViewController: UIViewController {
     
+    // MARK: - Public Properties
+
     weak var delegate: NewCategoryViewControllerDelegate?
     
+    // MARK: - UI Components
+
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
         lable.text = "Категория"
@@ -38,6 +44,8 @@ final class NewCategoryViewController: UIViewController {
         return button
     }()
     
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -45,6 +53,8 @@ final class NewCategoryViewController: UIViewController {
         setupLayout()
     }
     
+    // MARK: - Private Methods
+
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             readyButton.isEnabled = true
@@ -55,7 +65,7 @@ final class NewCategoryViewController: UIViewController {
         }
     }
     
-    @IBAction private func ready() {
+    @objc private func ready() {
         guard let nameNewCategory = categoryNameField.text,
               nameNewCategory.count > 0,
               let delegate = delegate
@@ -78,6 +88,8 @@ final class NewCategoryViewController: UIViewController {
         }
     }
     
+    // MARK: - View Layout
+
     private func setupLayout() {
         view.addSubview(titleView)
         view.addSubview(readyButton)
@@ -98,6 +110,8 @@ final class NewCategoryViewController: UIViewController {
         ])
     }
 }
+
+// MARK: - Extension: UITextFieldDelegate
 
 extension NewCategoryViewController: UITextFieldDelegate {
     

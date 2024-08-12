@@ -7,13 +7,20 @@
 
 import UIKit
 
+// MARK: - Protocol: HabitScheduleViewControllerDelegate
+
 protocol HabitScheduleViewControllerDelegate: AnyObject {
     func updateSchedule(_ daysOfWeek: [DayOfWeek: Bool])
 }
 
 final class HabitScheduleViewController: UIViewController {
     
+    // MARK: - Public Properties
+    
+    var daySelections: [DayOfWeek: Bool] = [:]
     weak var delegate: HabitScheduleViewControllerDelegate?
+    
+    // MARK: - Private Properties
     
     private let daysOfWeek: [DayOfWeek] = [
         .monday,
@@ -25,7 +32,7 @@ final class HabitScheduleViewController: UIViewController {
         .sunday
     ]
     
-    var daySelections: [DayOfWeek: Bool] = [:]
+    // MARK: - UI Components
     
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
@@ -44,6 +51,8 @@ final class HabitScheduleViewController: UIViewController {
     
     private let tableView = ParameterTable(frame: .zero, style: .plain)
     
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -51,6 +60,8 @@ final class HabitScheduleViewController: UIViewController {
         setupTable()
         setupLayout()
     }
+    
+    // MARK: - IBActions
     
     @IBAction private func ready() {
         
@@ -60,9 +71,44 @@ final class HabitScheduleViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction private func switchChanged(_ sender: UISwitch) {
+        let day = daysOfWeek[sender.tag]
+        daySelections[day] = sender.isOn
+        
+        if daySelections.contains(where: { $0.value }) {
+            readyButton.isEnabled = true
+            readyButton.backgroundColor = .ypBlack
+        } else {
+            readyButton.isEnabled = false
+            readyButton.backgroundColor = .ypGray        }
+    }
+    
+    // MARK: - Private Methods
+    
     private func setupTable() {
         tableView.dataSource = self
     }
+    
+    private func printDayOfWeek(_ day: DayOfWeek) -> String{
+        switch day {
+        case .monday:
+            "Понедельник"
+        case .tuesday:
+            "Вторник"
+        case .wednesday:
+            "Среда"
+        case .thursday:
+            "Четверг"
+        case .friday:
+            "Пятница"
+        case .saturday:
+            "Суббота"
+        case .sunday:
+            "Воскресенье"
+        }
+    }
+    
+    // MARK: - View Layout
     
     private func setupLayout() {
         view.addSubview(titleView)
@@ -84,6 +130,8 @@ final class HabitScheduleViewController: UIViewController {
         ])
     }
 }
+
+// MARK: - Extension: UITableViewDataSource
 
 extension HabitScheduleViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -109,40 +157,6 @@ extension HabitScheduleViewController: UITableViewDataSource {
         
         typseTrackerCell.setup(hideTopSeparator: indexPath.row == 0,
                                hideBotSeparator: indexPath.row == daysOfWeek.count - 1)
-        
         return typseTrackerCell
     }
-    
-    @IBAction private func switchChanged(_ sender: UISwitch) {
-        let day = daysOfWeek[sender.tag]
-        daySelections[day] = sender.isOn
-        
-        if daySelections.contains(where: { $0.value }) {
-            readyButton.isEnabled = true
-            readyButton.backgroundColor = .ypBlack
-        } else {
-            readyButton.isEnabled = false
-            readyButton.backgroundColor = .ypGray        }
-    }
-    
-    private func printDayOfWeek(_ day: DayOfWeek) -> String{
-        switch day {
-        case .monday:
-            "Понедельник"
-        case .tuesday:
-            "Вторник"
-        case .wednesday:
-            "Среда"
-        case .thursday:
-            "Четверг"
-        case .friday:
-            "Пятница"
-        case .saturday:
-            "Суббота"
-        case .sunday:
-            "Воскресенье"
-        }
-    }
-    
-    
 }

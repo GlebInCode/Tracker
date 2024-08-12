@@ -7,17 +7,22 @@
 
 import UIKit
 
+// MARK: - Protocol: CategoryTrackerViewControllerDelegate
+
 protocol CategoryTrackerViewControllerDelegate: AnyObject {
     func updateСurrentCategory(_ indexPath: IndexPath)
 }
 
 final class CategoryTrackerViewController: UIViewController {
     
+    // MARK: - Public Properties
+
     weak var delegate: CategoryTrackerViewControllerDelegate?
-    
     var categories: [TrackerCategory] = []
     var selectedIndexPath: IndexPath?
     
+    // MARK: - UI Components
+
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
         lable.text = "Категория"
@@ -41,6 +46,8 @@ final class CategoryTrackerViewController: UIViewController {
     
     private let tableView = ParameterTable(frame: .zero, style: .plain)
     
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -54,17 +61,23 @@ final class CategoryTrackerViewController: UIViewController {
         }
     }
     
+    // MARK: - IBActions
+
     @IBAction private func addCategory() {
         let newCategoryViewController = NewCategoryViewController()
         newCategoryViewController.delegate = self
         self.present(newCategoryViewController, animated: true, completion: nil)
     }
     
+    // MARK: - Private Methods
+
     private func setupTable() {
         tableView.dataSource = self
         tableView.delegate = self
     }
     
+    // MARK: - View Layout
+
     private func setupLayout() {
         view.addSubview(titleView)
         view.addSubview(addCategoryButton)
@@ -79,7 +92,7 @@ final class CategoryTrackerViewController: UIViewController {
         ])
     }
     
-    func layoutTable() {
+    private func layoutTable() {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -100,6 +113,8 @@ final class CategoryTrackerViewController: UIViewController {
         ])
     }
 }
+
+// MARK: - Extension: UITableViewDataSource
 
 extension CategoryTrackerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,6 +142,8 @@ extension CategoryTrackerViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Extension: UITableViewDelegate
+
 extension CategoryTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? TypseTrackerCell {
@@ -145,6 +162,8 @@ extension CategoryTrackerViewController: UITableViewDelegate {
         }
     }
 }
+
+// MARK: - Extension: NewCategoryViewControllerDelegate
 
 extension CategoryTrackerViewController: NewCategoryViewControllerDelegate {
     func updateTable() {

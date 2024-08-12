@@ -9,8 +9,12 @@ import UIKit
 
 final class DayWeekCell: UITableViewCell {
     
+    // MARK: - Private Properties
+    
     private let botSeparator = UIView(frame: .zero)
     private let topSeparator = UIView(frame: .zero)
+    
+    // MARK: - UI Components
     
     lazy var lable: UILabel = {
         let lable = UILabel()
@@ -26,6 +30,8 @@ final class DayWeekCell: UITableViewCell {
         return switchControl
     }()
     
+    // MARK: - Initializers
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -36,6 +42,15 @@ final class DayWeekCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Public Methods
+    
+    func setup(hideTopSeparator: Bool, hideBotSeparator: Bool) {
+        topSeparator.isHidden = hideTopSeparator
+        botSeparator.isHidden = hideBotSeparator
+    }
+    
+    // MARK: - View Layout
     
     private func setupViews() {
         selectionStyle = .none
@@ -57,30 +72,27 @@ final class DayWeekCell: UITableViewCell {
     
     private func setupSeparators() {
         separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-
-                topSeparator.backgroundColor = .ypGray
-                botSeparator.backgroundColor = .ypGray
-
-                contentView.addSubview(topSeparator)
-                contentView.addSubview(botSeparator)
-                topSeparator.translatesAutoresizingMaskIntoConstraints = false
-                botSeparator.translatesAutoresizingMaskIntoConstraints = false
-
-                NSLayoutConstraint.activate([
-                    topSeparator.topAnchor.constraint(equalTo: contentView.topAnchor),
-                    topSeparator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-                    topSeparator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-                    topSeparator.heightAnchor.constraint(equalToConstant: 0.5),
-
-                    botSeparator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                    botSeparator.trailingAnchor.constraint(equalTo: topSeparator.trailingAnchor),
-                    botSeparator.leadingAnchor.constraint(equalTo: topSeparator.leadingAnchor),
-                    botSeparator.heightAnchor.constraint(equalTo: topSeparator.heightAnchor)
-                ])
-        }
+        
+        topSeparator.backgroundColor = .ypGray
+        botSeparator.backgroundColor = .ypGray
+        
+        contentView.addSubview(topSeparator)
+        contentView.addSubview(botSeparator)
+        topSeparator.translatesAutoresizingMaskIntoConstraints = false
+        botSeparator.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            topSeparator.topAnchor.constraint(equalTo: contentView.topAnchor),
+            topSeparator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            topSeparator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            topSeparator.heightAnchor.constraint(equalToConstant: 0.5),
+            
+            botSeparator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            botSeparator.trailingAnchor.constraint(equalTo: topSeparator.trailingAnchor),
+            botSeparator.leadingAnchor.constraint(equalTo: topSeparator.leadingAnchor),
+            botSeparator.heightAnchor.constraint(equalTo: topSeparator.heightAnchor)
+        ])
+    }
     
-    func setup(hideTopSeparator: Bool, hideBotSeparator: Bool) {
-            topSeparator.isHidden = hideTopSeparator
-            botSeparator.isHidden = hideBotSeparator
-        }
+    
 }
