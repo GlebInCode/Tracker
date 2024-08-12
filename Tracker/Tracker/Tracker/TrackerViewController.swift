@@ -23,6 +23,7 @@ final class TrackerViewController: UIViewController {
     private let calendar = Calendar(identifier: .gregorian)
     private var targetDayTrackers: [TrackerCategory] = []
     private let cellIdentifier = "cell"
+    private var cellIsEnabled = true
     
     // MARK: - UI Components
     
@@ -159,6 +160,11 @@ final class TrackerViewController: UIViewController {
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         selectedDate = sender.date
         updateCollectionTrackerDate(selectedDate)
+        updateCellIsEnabled()
+    }
+    
+    private func updateCellIsEnabled() {
+        cellIsEnabled = selectedDate <= Date()
     }
     
     private func showContentOrPlaceholder() {
@@ -316,27 +322,31 @@ extension TrackerViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let tracker = targetDayTrackers[indexPath.section].tracker[indexPath.item]
-        cell.nameLable.text = tracker.name
-        cell.color = tracker.color
-        cell.smail.text = tracker.emoji
-        cell.id = tracker.id
+        
         cell.delegate = self
+        cell.id = tracker.id
         cell.status = false
+        var day = 0
+        var status = false
+        
         if executedTrackerIds.contains(tracker.id){
             guard let index = completedTrackers.firstIndex(where: { $0.idTracker == tracker.id }) else {
                 print("При сборе ячейки не нашел трекер в выполненных")
-                cell.apdateMark()
                 return cell
             }
+            day = completedTrackers[index].date.count
+            cell.updateCountDays(day: day)
             let selDate = Calendar.current.dateComponents([.day, .month, .year], from: selectedDate)
             for date in completedTrackers[index].date {
                 let dateCompleted = Calendar.current.dateComponents([.day, .month, .year], from: date)
                 if selDate == dateCompleted {
-                    cell.status = true
+                    status = true
                 }
             }
         }
-        cell.apdateMark()
+        
+        cell.configCell(name: tracker.name, color: tracker.color, emoji: tracker.emoji, executionStatus: status, day: day, cellStatus: cellIsEnabled)
+        
         return cell
     }
     
@@ -365,31 +375,26 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {}
 // MARK: - Extension: TrackerCellDelegate
 
 extension TrackerViewController: TrackerCellDelegate {
-    func didTapAddButton(_ id: UUID, _ status: Bool) -> Bool{
-        guard selectedDate < Date() else {
-            return !status
-        }
+    func didTapAddButton(_ id: UUID, _ status: Bool) {
+        
         var date: [Date] = []
         if executedTrackerIds.contains(id) {
             guard let index = completedTrackers.firstIndex(where: { $0.idTracker == id }) else {
                 print("Не нашел трекер во время изменения статуса")
-                return status
+                return
             }
             if status {
-                
                 date = completedTrackers[index].date + [selectedDate]
             } else {
                 let selectedDate = Calendar.current.dateComponents([.day, .month, .year], from: selectedDate)
                 for dateCompletedDate in completedTrackers[index].date {
                     let dateCompleted = Calendar.current.dateComponents([.day, .month, .year], from: dateCompletedDate)
                     if selectedDate == dateCompleted {
-                        print(completedTrackers[index].date)
                         date = completedTrackers[index].date.filter { $0 != dateCompletedDate }
-                        print(date)
                         guard !date.isEmpty else {
                             completedTrackers.remove(at: index)
                             executedTrackerIds.remove(id)
-                            return status
+                            return
                         }
                     }
                 }
@@ -400,7 +405,7 @@ extension TrackerViewController: TrackerCellDelegate {
         }
         completedTrackers.append(TrackerRecord(idTracker: id, date: date))
         executedTrackerIds.insert(id)
-        return status
+        return 
     }
 }
 

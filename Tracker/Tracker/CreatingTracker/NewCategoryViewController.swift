@@ -120,4 +120,9 @@ extension NewCategoryViewController: UITextFieldDelegate {
         let newLength = text.count + string.count - range.length
         return newLength <= 38
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

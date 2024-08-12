@@ -63,14 +63,6 @@ final class HabitScheduleViewController: UIViewController {
     
     // MARK: - IBActions
     
-    @IBAction private func ready() {
-        
-        if let delegate = delegate {
-            delegate.updateSchedule(daySelections)
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction private func switchChanged(_ sender: UISwitch) {
         let day = daysOfWeek[sender.tag]
         daySelections[day] = sender.isOn
@@ -84,6 +76,14 @@ final class HabitScheduleViewController: UIViewController {
     }
     
     // MARK: - Private Methods
+    
+    @objc private func ready() {
+        
+        if let delegate = delegate {
+            delegate.updateSchedule(daySelections)
+        }
+        dismiss(animated: true, completion: nil)
+    }
     
     private func setupTable() {
         tableView.dataSource = self

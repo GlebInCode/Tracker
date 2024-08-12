@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Protocol: TrackerCellDelegate
 
 protocol TrackerCellDelegate {
-    func didTapAddButton(_ id: UUID, _ status: Bool) -> Bool
+    func didTapAddButton(_ id: UUID, _ status: Bool)
 }
 
 final class TrackerCollectionViewCell: UICollectionViewCell {
@@ -22,6 +22,10 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     var color: UIColor = .ypBlack
     var id: UUID?
     var status: Bool = false
+    
+    // MARK: - Private Properties
+
+    private var countDays: Int = 0
     
     // MARK: - UI Components
     
@@ -34,7 +38,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var smail: UILabel = {
+    private lazy var smail: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
         lable.layer.cornerRadius = 12
@@ -42,11 +46,10 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         lable.textAlignment = .center
         lable.backgroundColor = .ypBackground
         lable.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        lable.text = "❤️"
         return lable
     }()
     
-    lazy var nameLable: UILabel = {
+    private lazy var nameLable: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
         lable.textColor = .ypWhite
@@ -56,27 +59,29 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return lable
     }()
     
-    lazy var counterLable: UILabel = {
+    private lazy var counterLable: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
         lable.textColor = .ypBlack
-        lable.text = "1 day"
+        lable.text = "\(countDays) дней"
         lable.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return lable
     }()
     
-    lazy var addButtonCell: UIButton = {
+    private lazy var addButtonCell: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = color
         button.layer.cornerRadius = 17
         button.layer.masksToBounds = true
         button.tintColor = .ypWhite
+        button.adjustsImageWhenDisabled = false
+        
         button.addTarget(self, action: #selector(addButtonTap), for: .touchUpInside)
         return button
     }()
     
-    lazy var stackCounterTracker: UIStackView = {
+    private lazy var stackCounterTracker: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [counterLable, addButtonCell])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
@@ -100,16 +105,46 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     @IBAction func addButtonTap(_ sender: UIButton) {
         self.addButtonCell.isEnabled = false
         self.status = self.status ? false : true
-        self.apdateMark()
         guard let delegate, let id else {
             return
         }
-        self.status = delegate.didTapAddButton(id, status)
+        delegate.didTapAddButton(id, status)
+        if status {
+            updateCountDays(day: countDays + 1)
+        } else {
+            updateCountDays(day: countDays - 1)
+        }
         self.apdateMark()
         self.addButtonCell.isEnabled = true
     }
     
     // MARK: - Public Methods
+    
+    func configCell(name: String, color: UIColor, emoji: String, executionStatus: Bool, day: Int, cellStatus: Bool) {
+        nameLable.text = name
+        namedTrackerView.backgroundColor = color
+        smail.text = emoji
+        status = executionStatus
+        addButtonCell.isEnabled = cellStatus
+        updateCountDays(day: day)
+        apdateMark()
+    }
+    
+    func updateCountDays(day: Int) {
+        countDays = day
+        var textLable = ""
+        let dayMod = countDays % 10
+            let dayMod100 = countDays % 100
+            
+            if dayMod == 1 && dayMod100 != 11 {
+                textLable = "\(countDays) день"
+            } else if dayMod >= 2 && dayMod <= 4 && (dayMod100 < 10 || dayMod100 >= 20) {
+                textLable = "\(countDays) дня"
+            } else {
+                textLable = "\(countDays) дней"
+            }
+        counterLable.text = textLable
+    }
     
     func apdateMark() {
         let image = status ? UIImage(named: "Done") : UIImage(systemName: "plus")
