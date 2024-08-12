@@ -1,0 +1,47 @@
+//
+//  TabBarController.swift
+//  Tracker
+//
+//  Created by Глеб Хамин on 25.07.2024.
+//
+
+import UIKit
+
+class TabBarController: UITabBarController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        generateTabBar()
+        
+    }
+    
+    private func generateTabBar() {
+        viewControllers = [
+            generateVC(
+                viewController: TrackerViewController(),
+                title: "Трекер",
+                image: UIImage(named: "Tracker")
+            ),
+            generateVC(
+                viewController: StaticticsViewController(),
+                title: "Статистика",
+                image: UIImage(named: "Statistics")
+            )
+        ]
+        
+    }
+    
+    private func generateVC(viewController: UIViewController, title: String, image: UIImage?) -> UIViewController {
+        viewController.tabBarItem.title = title
+        viewController.tabBarItem.image = image
+        
+        let topBorder = CALayer()
+        topBorder.frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 1.0)
+        topBorder.backgroundColor = UIColor.ypGray.cgColor
+        tabBar.layer.addSublayer(topBorder)
+        
+        return viewController
+    }
+    
+}
+
