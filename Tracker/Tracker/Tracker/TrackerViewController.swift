@@ -16,7 +16,9 @@ final class TrackerViewController: UIViewController {
     var categories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     var executedTrackerIds: Set<UUID> = []
-    var selectedDate = Date()
+    private var selectedDate = Date()
+    private var targetSelectedDate: DateComponents?
+    private var selectDayWeek: DayOfWeek?
     
     // MARK: - Private Properties
     
@@ -158,8 +160,8 @@ final class TrackerViewController: UIViewController {
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-        selectedDate = sender.date
-        updateCollectionTrackerDate(selectedDate)
+        let date = sender.date
+        updateCollectionTrackerDate(date)
         updateCellIsEnabled()
     }
     
@@ -179,9 +181,18 @@ final class TrackerViewController: UIViewController {
     }
     
     private func updateCollectionTrackerDate(_ date: Date) {
+        selectedDate = date
+        targetSelectedDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
         
+        getDayOfWeek(date: date)
+        updateTargetDayTrackers()
+        
+        showContentOrPlaceholder()
+        collectionView.reloadData()
+    }
+    
+    private func getDayOfWeek(date: Date) {
         let dayOfWeek = calendar.component(.weekday, from: date)
-        var selectDayWeek: DayOfWeek?
         
         switch dayOfWeek {
         case 1:
@@ -201,9 +212,10 @@ final class TrackerViewController: UIViewController {
         default:
             print("Неизвестный день недели")
         }
+    }
+    
+    private func updateTargetDayTrackers() {
         targetDayTrackers = []
-        
-        guard let selectDayWeek else { return }
         for category in categories {
             if !category.tracker.isEmpty {
                 var treckers: [Tracker] = []
@@ -214,9 +226,8 @@ final class TrackerViewController: UIViewController {
                                 print("Нет трекера в выполненныех")
                                 return
                             }
-                            let date1Components = Calendar.current.dateComponents([.day, .month, .year], from: completedTrackers[index].date[0])
-                            let date2Components = Calendar.current.dateComponents([.day, .month, .year], from: date)
-                            if date1Components == date2Components{
+                            let compareDate = Calendar.current.dateComponents([.day, .month, .year], from: completedTrackers[index].date[0])
+                            if compareDate == targetSelectedDate {
                                 treckers.append(tracker)
                                 continue
                             }
@@ -238,8 +249,6 @@ final class TrackerViewController: UIViewController {
                 }
             }
         }
-        showContentOrPlaceholder()
-        collectionView.reloadData()
     }
     
     private func updateExecutedTrackerIds() {
@@ -336,10 +345,9 @@ extension TrackerViewController: UICollectionViewDataSource {
             }
             day = completedTrackers[index].date.count
             cell.updateCountDays(day: day)
-            let selDate = Calendar.current.dateComponents([.day, .month, .year], from: selectedDate)
             for date in completedTrackers[index].date {
                 let dateCompleted = Calendar.current.dateComponents([.day, .month, .year], from: date)
-                if selDate == dateCompleted {
+                if targetSelectedDate == dateCompleted {
                     status = true
                 }
             }
@@ -405,7 +413,7 @@ extension TrackerViewController: TrackerCellDelegate {
         }
         completedTrackers.append(TrackerRecord(idTracker: id, date: date))
         executedTrackerIds.insert(id)
-        return 
+        return
     }
 }
 
