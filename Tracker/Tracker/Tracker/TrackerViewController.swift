@@ -15,16 +15,18 @@ final class TrackerViewController: UIViewController {
     
     var categories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
-    var executedTrackerIds: Set<UUID> = []
-    private var selectedDate = Date()
-    private var targetSelectedDate: DateComponents?
-    private var selectDayWeek: DayOfWeek?
+    
     
     // MARK: - Private Properties
     
-    private let calendar = Calendar(identifier: .gregorian)
-    private var targetDayTrackers: [TrackerCategory] = []
     private let cellIdentifier = "cell"
+    private let calendar = Calendar(identifier: .gregorian)
+    
+    private var executedTrackerIds: Set<UUID> = []
+    private var selectedDate = Date()
+    private var targetSelectedDate: DateComponents?
+    private var selectDayWeek: DayOfWeek?
+    private var targetDayTrackers: [TrackerCategory] = []
     private var cellIsEnabled = true
     
     // MARK: - UI Components

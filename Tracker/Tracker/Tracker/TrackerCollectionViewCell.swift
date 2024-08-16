@@ -125,6 +125,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         namedTrackerView.backgroundColor = color
         smail.text = emoji
         status = executionStatus
+        addButtonCell.backgroundColor = color
         addButtonCell.isEnabled = cellStatus
         updateCountDays(day: day)
         apdateMark()
