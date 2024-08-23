@@ -5,7 +5,6 @@
 //  Created by Глеб Хамин on 25.07.2024.
 //
 
-import Foundation
 import UIKit
 
 final class TrackerViewController: UIViewController {
@@ -21,6 +20,7 @@ final class TrackerViewController: UIViewController {
     
     private let cellIdentifier = "cell"
     private let calendar = Calendar(identifier: .gregorian)
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private var executedTrackerIds: Set<UUID> = []
     private var selectedDate = Date()

@@ -21,6 +21,8 @@ final class CategoryTrackerViewController: UIViewController {
     var categories: [TrackerCategory] = []
     var selectedIndexPath: IndexPath?
     
+    private let store = Store()
+    
     // MARK: - UI Components
 
     private lazy var titleView: UILabel = {
@@ -52,6 +54,7 @@ final class CategoryTrackerViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
+        updateCategory()
         setupTable()
         setupLayout()
         if categories.count > 0 {
@@ -74,6 +77,14 @@ final class CategoryTrackerViewController: UIViewController {
     private func setupTable() {
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    private func updateCategory() {
+        do {
+            categories = try store.categoryArr()
+        } catch {
+            print("Данные не доступны")
+        }
     }
     
     // MARK: - View Layout

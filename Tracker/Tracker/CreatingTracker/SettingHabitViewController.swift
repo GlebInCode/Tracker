@@ -119,7 +119,6 @@ final class SettingHabitViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width - 34, height: height)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        
         return scrollView
     }()
     
@@ -371,7 +370,7 @@ extension SettingHabitViewController: UITableViewDelegate {
         
         if indexPath.row == 0 {
             let categoryTrackerVC = CategoryTrackerViewController()
-            categoryTrackerVC.categories = categories
+//            categoryTrackerVC.categories = categories
             categoryTrackerVC.delegate = self
             if let currentCategory {
                 categoryTrackerVC.selectedIndexPath = IndexPath(row: currentCategory, section: 0)

@@ -20,6 +20,8 @@ final class NewCategoryViewController: UIViewController {
 
     weak var delegate: NewCategoryViewControllerDelegate?
     
+    private let store = Store()
+    
     // MARK: - UI Components
 
     private lazy var titleView: UILabel = {
@@ -73,6 +75,13 @@ final class NewCategoryViewController: UIViewController {
             return
         }
         let newCategory = TrackerCategory(title: nameNewCategory, tracker: [])
+        
+        do {
+            try store.addNewCategory(newCategory)
+        } catch {
+            print("Категория не сохранена")
+        }
+        
         var row: Int?
         let completion: (Int) -> Void = { numberCategories in
             row = numberCategories
