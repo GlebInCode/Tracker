@@ -10,8 +10,7 @@ import UIKit
 // MARK: - Protocol: NewCategoryViewControllerDelegate
 
 protocol NewCategoryViewControllerDelegate: AnyObject {
-    func updateView(_ indexPath: IndexPath)
-    func updateTable()
+    func updateCategory(_ title: String)
 }
 
 final class NewCategoryViewController: UIViewController {
@@ -74,26 +73,16 @@ final class NewCategoryViewController: UIViewController {
         else {
             return
         }
-        let newCategory = TrackerCategory(title: nameNewCategory, tracker: [])
         
         do {
-            try store.addNewCategory(newCategory)
+            try store.addNewCategory(nameNewCategory)
+            
         } catch {
             print("Категория не сохранена")
         }
-        
-        var row: Int?
-        let completion: (Int) -> Void = { numberCategories in
-            row = numberCategories
-        }
-        let notification = Notification(name: .addCategory, object: newCategory, userInfo: ["completion": completion])
-        NotificationCenter.default.post(notification)
-        if let row = row {
-            let indexPath = IndexPath(row: row, section: 0)
-            delegate.updateView(indexPath)
-        }
+
         dismiss(animated: false) {
-            self.delegate?.updateTable()
+            self.delegate?.updateCategory(nameNewCategory)
         }
     }
     

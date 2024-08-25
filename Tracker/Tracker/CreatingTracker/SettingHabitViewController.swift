@@ -17,9 +17,11 @@ final class SettingHabitViewController: UIViewController {
     
     // MARK: - Private Properties
 
+    private let store = Store()
+    private var tracker: Tracker?
     private var cellsTable: [String] = []
     private var newCategory: TrackerCategory?
-    private var currentCategory: Int?
+    private var nameCategory: String?
     private var schedule: String = ""
     private var nameTracker: String = ""
     private var daySelections: [DayOfWeek: Bool] = [.monday : false,
@@ -159,9 +161,8 @@ final class SettingHabitViewController: UIViewController {
     // MARK: - IBActions
 
     @IBAction private func create() {
-        createCategory()
-        let notification = Notification(name: .addCategory, object: newCategory)
-        NotificationCenter.default.post(notification)
+        createTracker()
+
         if let window = UIApplication.shared.windows.first {
             window.rootViewController?.dismiss(animated: true, completion: nil)
         }
@@ -198,25 +199,17 @@ final class SettingHabitViewController: UIViewController {
         }
     }
     
-    private func createCategory() {
-        guard let currentCategory, let selectColor, let selectEmoji else { return }
-        guard let color = UIColor(hex: colors[selectColor]) else {
-            return
-        }
-        var trackers: [Tracker] = [createTracker(color, selectEmoji)]
-        if !categories[currentCategory].tracker.isEmpty {
-            trackers = categories[currentCategory].tracker + trackers
-        }
-        newCategory = TrackerCategory(title: categories[currentCategory].title, tracker: trackers)
-    }
-    
-    private func createTracker(_ selectColor: UIColor, _ selectEmoji: Int) -> Tracker{
+    private func createTracker() {
+        guard let nameCategory, let selectColor, let selectEmoji else { return }
+        guard let colorUI = UIColor(hex: colors[selectColor]) else { return }
         let id = createId()
         let name = nameTracker
-        let color = selectColor
+        let color = colorUI
         let emoji = emojies[selectEmoji]
         let schedule = sreateSchedule()
-        return Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+        tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+        guard let tracker else { return }
+        store.addNewTracker(tracker, nameCategory)
     }
     
     private func createId() -> UUID {
@@ -238,7 +231,7 @@ final class SettingHabitViewController: UIViewController {
     private func canPerformAction() {
         switch trackerType {
         case .habit:
-            if nameTracker.count > 0, schedule.count > 0, let _ = currentCategory, let _ = selectColor, let _ = selectEmoji {
+            if nameTracker.count > 0, schedule.count > 0, let _ = nameCategory, let _ = selectColor, let _ = selectEmoji {
                 createButton.isEnabled = true
                 createButton.backgroundColor = .ypBlack
             } else {
@@ -246,7 +239,7 @@ final class SettingHabitViewController: UIViewController {
                 createButton.backgroundColor = .ypGray
             }
         case .event:
-            if nameTracker.count > 0, let _ = currentCategory, let _ = selectColor, let _ = selectEmoji {
+            if nameTracker.count > 0, let _ = nameCategory, let _ = selectColor, let _ = selectEmoji {
                 createButton.isEnabled = true
                 createButton.backgroundColor = .ypBlack
             } else {
@@ -349,9 +342,8 @@ extension SettingHabitViewController: UITableViewDataSource {
             typseTrackerCell.subLable.text = schedule
             typseTrackerCell.addSublabel()
         }
-        if indexPath.row == 0, let currentCategory {
-            let text = categories[currentCategory].title
-            typseTrackerCell.subLable.text = text
+        if indexPath.row == 0, let nameCategory {
+            typseTrackerCell.subLable.text = nameCategory
             typseTrackerCell.addSublabel()
         }
         self.tableView.roundingVorners(cell: typseTrackerCell, tableView: tableView, indexPath: indexPath)
@@ -372,8 +364,8 @@ extension SettingHabitViewController: UITableViewDelegate {
             let categoryTrackerVC = CategoryTrackerViewController()
 //            categoryTrackerVC.categories = categories
             categoryTrackerVC.delegate = self
-            if let currentCategory {
-                categoryTrackerVC.selectedIndexPath = IndexPath(row: currentCategory, section: 0)
+            if let nameCategory {
+                categoryTrackerVC.selectedCategory = nameCategory
             }
             self.present(categoryTrackerVC, animated:  true, completion: nil)
         } else if indexPath.row == 1 {
@@ -388,8 +380,8 @@ extension SettingHabitViewController: UITableViewDelegate {
 // MARK: - Extension: CategoryTrackerViewControllerDelegate
 
 extension SettingHabitViewController: CategoryTrackerViewControllerDelegate {
-    func updateСurrentCategory(_ indexPath: IndexPath) {
-        currentCategory = indexPath.row
+    func updateСurrentCategory(_ nameCategory: String) {
+        self.nameCategory = nameCategory
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
         canPerformAction()

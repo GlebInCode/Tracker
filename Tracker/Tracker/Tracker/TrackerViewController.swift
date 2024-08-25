@@ -15,9 +15,9 @@ final class TrackerViewController: UIViewController {
     var categories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     
-    
     // MARK: - Private Properties
     
+    private let store = Store()
     private let cellIdentifier = "cell"
     private let calendar = Calendar(identifier: .gregorian)
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -111,6 +111,7 @@ final class TrackerViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
         
+        udateDate()
         setupConstraints()
         updateExecutedTrackerIds()
         updateCollectionTrackerDate(selectedDate)
@@ -163,8 +164,20 @@ final class TrackerViewController: UIViewController {
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         let date = sender.date
+        udateDate()
+        updateExecutedTrackerIds()
         updateCollectionTrackerDate(date)
         updateCellIsEnabled()
+    }
+    
+    private func udateDate() {
+        do {
+            categories = try store.getCategoriesTracker()
+            completedTrackers = try store.getCompletedTrackers()
+        } catch {
+            print("Данные не доступны")
+        }
+        
     }
     
     private func updateCellIsEnabled() {
@@ -254,6 +267,7 @@ final class TrackerViewController: UIViewController {
     }
     
     private func updateExecutedTrackerIds() {
+        executedTrackerIds.removeAll()
         for tracker in completedTrackers {
             let id = tracker.idTracker
             if executedTrackerIds.contains(id) {
@@ -387,35 +401,26 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {}
 extension TrackerViewController: TrackerCellDelegate {
     func didTapAddButton(_ id: UUID, _ status: Bool) {
         
-        var date: [Date] = []
         if executedTrackerIds.contains(id) {
             guard let index = completedTrackers.firstIndex(where: { $0.idTracker == id }) else {
                 print("Не нашел трекер во время изменения статуса")
                 return
             }
             if status {
-                date = completedTrackers[index].date + [selectedDate]
+                store.addNewTrackerRecord(trackerId: id, date: selectedDate)
             } else {
                 let selectedDate = Calendar.current.dateComponents([.day, .month, .year], from: selectedDate)
                 for dateCompletedDate in completedTrackers[index].date {
                     let dateCompleted = Calendar.current.dateComponents([.day, .month, .year], from: dateCompletedDate)
                     if selectedDate == dateCompleted {
-                        date = completedTrackers[index].date.filter { $0 != dateCompletedDate }
-                        guard !date.isEmpty else {
-                            completedTrackers.remove(at: index)
-                            executedTrackerIds.remove(id)
-                            return
-                        }
+                        store.deleteTrackerRecord(trackerId: id, date: dateCompletedDate)
+                        return
                     }
                 }
             }
-            completedTrackers.remove(at: index)
         } else {
-            date = [selectedDate]
+            store.addNewTrackerRecord(trackerId: id, date: selectedDate)
         }
-        completedTrackers.append(TrackerRecord(idTracker: id, date: date))
-        executedTrackerIds.insert(id)
-        return
     }
 }
 

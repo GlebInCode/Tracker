@@ -9,7 +9,7 @@
         <attribute name="emoji" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="schedule" optional="YES" attributeType="Transformable" valueTransformerName="DaysValueTransformer"/>
+        <attribute name="schedule" optional="YES" attributeType="Transformable" valueTransformerName="DayOfWeekTransformer"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerCategoryCoreDate" inverseName="tracker" inverseEntity="TrackerCategoryCoreDate"/>
         <relationship name="record" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackerRecordCoreDate" inverseName="tracker" inverseEntity="TrackerRecordCoreDate"/>
     </entity>

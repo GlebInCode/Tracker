@@ -6,12 +6,10 @@
 //
 
 import Foundation
-import UIKit
 
-@objc
+@objc(DaysValueTransformer)
 final class DaysValueTransformer: ValueTransformer {
     override class func transformedValueClass() -> AnyClass { NSData.self }
-    
     override class func allowsReverseTransformation() -> Bool { true }
     
     override func transformedValue(_ value: Any?) -> Any? {
@@ -35,6 +33,3 @@ final class DaysValueTransformer: ValueTransformer {
 extension NSValueTransformerName {
     static let dayOfWeekTransformerName = NSValueTransformerName(rawValue: String(describing: DaysValueTransformer.self))
 }
-
-
-
