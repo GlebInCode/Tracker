@@ -73,7 +73,7 @@ final class HabitScheduleViewController: UIViewController {
     // MARK: - Private Methods
     
     @objc private func ready() {
-        if let delegate = delegate {
+        if let delegate {
             delegate.updateSchedule(daySelections)
         }
         dismiss(animated: true, completion: nil)

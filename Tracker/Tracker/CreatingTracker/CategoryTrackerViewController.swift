@@ -21,7 +21,7 @@ final class CategoryTrackerViewController: UIViewController {
     var categories: [TrackerCategory] = []
     var selectedCategory: String?
     
-    private let store = Store()
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     // MARK: - UI Components
 
@@ -81,7 +81,7 @@ final class CategoryTrackerViewController: UIViewController {
     
     private func updateCategory() {
         do {
-            categories = try store.getCategory()
+            categories = try trackerCategoryStore.getCategory()
         } catch {
             print("Данные не доступны")
         }
@@ -164,7 +164,7 @@ extension CategoryTrackerViewController: UITableViewDelegate {
                 return print("Выбрана пустая ячейка")
             }
             
-            if let delegate = delegate {
+            if let delegate {
                 delegate.updateСurrentCategory(nameCategory)
             }
             dismiss(animated: true, completion: nil)

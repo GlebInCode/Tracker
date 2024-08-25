@@ -17,7 +17,7 @@ final class SettingHabitViewController: UIViewController {
     
     // MARK: - Private Properties
 
-    private let store = Store()
+    private let trackerStore = TrackerStore()
     private var tracker: Tracker?
     private var cellsTable: [String] = []
     private var newCategory: TrackerCategory?
@@ -149,19 +149,15 @@ final class SettingHabitViewController: UIViewController {
         defineCellsTable()
         setupTable()
         setupLayout()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCategory(_:)), name: .updateCategory, object: nil)
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .updateCategory, object: nil)
-    }
-    
-    
     
     // MARK: - IBActions
 
     @IBAction private func create() {
         createTracker()
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.post(name: Notification.Name("DataUpdated"), object: self, userInfo: nil)
 
         if let window = UIApplication.shared.windows.first {
             window.rootViewController?.dismiss(animated: true, completion: nil)
@@ -184,12 +180,6 @@ final class SettingHabitViewController: UIViewController {
         return height
     }
     
-    @objc private func updateCategory(_ notification: Notification) {
-        if let newCategory = notification.object as? [TrackerCategory] {
-            categories = newCategory
-        }
-    }
-    
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             nameTracker = text
@@ -209,7 +199,7 @@ final class SettingHabitViewController: UIViewController {
         let schedule = sreateSchedule()
         tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
         guard let tracker else { return }
-        store.addNewTracker(tracker, nameCategory)
+        trackerStore.addNewTracker(tracker, nameCategory)
     }
     
     private func createId() -> UUID {
@@ -362,7 +352,6 @@ extension SettingHabitViewController: UITableViewDelegate {
         
         if indexPath.row == 0 {
             let categoryTrackerVC = CategoryTrackerViewController()
-//            categoryTrackerVC.categories = categories
             categoryTrackerVC.delegate = self
             if let nameCategory {
                 categoryTrackerVC.selectedCategory = nameCategory
@@ -516,8 +505,3 @@ extension SettingHabitViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - Extension: Notification.Name
-
-extension Notification.Name {
-    static let updateCategory = Notification.Name("updateCategory")
-}

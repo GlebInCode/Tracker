@@ -14,17 +14,7 @@ enum TrackerType {
     case event
 }
 
-// MARK: - Protocol: CreatingTrackerViewControllerDelegate
-
-protocol CreatingTrackerViewControllerDelegate: AnyObject {
-    func passCategories() -> [TrackerCategory]
-}
-
 final class CreatingTrackerViewController: UIViewController {
-    
-    // MARK: - Public Properties
-    
-    weak var delegate: CreatingTrackerViewControllerDelegate?
     
     // MARK: - UI Components
     
@@ -70,14 +60,12 @@ final class CreatingTrackerViewController: UIViewController {
     @IBAction private func createHabit() {
         let settingHabitViewController = SettingHabitViewController()
         settingHabitViewController.trackerType = .habit
-        settingHabitViewController.categories = delegate?.passCategories() ?? []
         self.present(settingHabitViewController, animated: true, completion: nil)
     }
     
     @IBAction private func createEvent() {
         let settingHabitViewController = SettingHabitViewController()
         settingHabitViewController.trackerType = .event
-        settingHabitViewController.categories = delegate?.passCategories() ?? []
         self.present(settingHabitViewController, animated: true, completion: nil)
     }
     

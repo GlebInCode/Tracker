@@ -19,7 +19,7 @@ final class NewCategoryViewController: UIViewController {
 
     weak var delegate: NewCategoryViewControllerDelegate?
     
-    private let store = Store()
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     // MARK: - UI Components
 
@@ -68,14 +68,13 @@ final class NewCategoryViewController: UIViewController {
     
     @objc private func ready() {
         guard let nameNewCategory = categoryNameField.text,
-              nameNewCategory.count > 0,
-              let delegate = delegate
+              nameNewCategory.count > 0
         else {
             return
         }
         
         do {
-            try store.addNewCategory(nameNewCategory)
+            try trackerCategoryStore.addNewCategory(nameNewCategory)
             
         } catch {
             print("Категория не сохранена")
