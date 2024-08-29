@@ -10,7 +10,7 @@ import UIKit
 // MARK: - Protocol: CategoryTrackerViewControllerDelegate
 
 protocol CategoryTrackerViewControllerDelegate: AnyObject {
-    func updateСurrentCategory(_ indexPath: IndexPath)
+    func updateСurrentCategory(_ nameCategory: String)
 }
 
 final class CategoryTrackerViewController: UIViewController {
@@ -19,7 +19,9 @@ final class CategoryTrackerViewController: UIViewController {
 
     weak var delegate: CategoryTrackerViewControllerDelegate?
     var categories: [TrackerCategory] = []
-    var selectedIndexPath: IndexPath?
+    var selectedCategory: String?
+    
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     // MARK: - UI Components
 
@@ -52,6 +54,7 @@ final class CategoryTrackerViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
+        updateCategory()
         setupTable()
         setupLayout()
         if categories.count > 0 {
@@ -74,6 +77,14 @@ final class CategoryTrackerViewController: UIViewController {
     private func setupTable() {
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    private func updateCategory() {
+        do {
+            categories = try trackerCategoryStore.getCategory()
+        } catch {
+            print("Данные не доступны")
+        }
     }
     
     // MARK: - View Layout
@@ -127,7 +138,7 @@ extension CategoryTrackerViewController: UITableViewDataSource {
         guard let typseTrackerCell = cell as? TypseTrackerCell else {
             return UITableViewCell()
         }
-        if indexPath == selectedIndexPath {
+        if categories[indexPath.row].title == selectedCategory {
             typseTrackerCell.image.image = UIImage(systemName: "checkmark")
         } else {
             typseTrackerCell.image.image = .none
@@ -148,10 +159,13 @@ extension CategoryTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? TypseTrackerCell {
             cell.image.image = UIImage(systemName: "checkmark")
-            selectedIndexPath = indexPath
+            selectedCategory = cell.lable.text
+            guard let nameCategory = cell.lable.text else {
+                return print("Выбрана пустая ячейка")
+            }
             
-            if let delegate = delegate {
-                delegate.updateСurrentCategory(indexPath)
+            if let delegate {
+                delegate.updateСurrentCategory(nameCategory)
             }
             dismiss(animated: true, completion: nil)
         }
@@ -166,17 +180,10 @@ extension CategoryTrackerViewController: UITableViewDelegate {
 // MARK: - Extension: NewCategoryViewControllerDelegate
 
 extension CategoryTrackerViewController: NewCategoryViewControllerDelegate {
-    func updateTable() {
-        tableView.reloadData()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func updateView(_ indexPath: IndexPath) {
-        selectedIndexPath = indexPath
-        tableView.reloadData()
-        
+    func updateCategory(_ title: String) {
         if let delegate = delegate {
-            delegate.updateСurrentCategory(indexPath)
+            delegate.updateСurrentCategory(title)
         }
+        dismiss(animated: true, completion: nil)
     }
 }

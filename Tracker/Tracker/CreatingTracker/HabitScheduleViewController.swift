@@ -43,7 +43,6 @@ final class HabitScheduleViewController: UIViewController {
     private lazy var readyButton: UIButton = {
         let button = CustomBlakButton()
         button.backgroundColor = .ypGray
-        button.isEnabled = false
         button.setTitle("Готово", for: .normal)
         button.addTarget(self, action: #selector(ready), for: .touchUpInside)
         return button
@@ -59,6 +58,7 @@ final class HabitScheduleViewController: UIViewController {
         
         setupTable()
         setupLayout()
+        shouldEnableButton()
     }
     
     // MARK: - IBActions
@@ -67,22 +67,25 @@ final class HabitScheduleViewController: UIViewController {
         let day = daysOfWeek[sender.tag]
         daySelections[day] = sender.isOn
         
+        shouldEnableButton()
+    }
+    
+    // MARK: - Private Methods
+    
+    @objc private func ready() {
+        if let delegate {
+            delegate.updateSchedule(daySelections)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func shouldEnableButton() {
         if daySelections.contains(where: { $0.value }) {
             readyButton.isEnabled = true
             readyButton.backgroundColor = .ypBlack
         } else {
             readyButton.isEnabled = false
             readyButton.backgroundColor = .ypGray        }
-    }
-    
-    // MARK: - Private Methods
-    
-    @objc private func ready() {
-        
-        if let delegate = delegate {
-            delegate.updateSchedule(daySelections)
-        }
-        dismiss(animated: true, completion: nil)
     }
     
     private func setupTable() {
