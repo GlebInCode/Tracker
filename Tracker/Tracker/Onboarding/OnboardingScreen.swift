@@ -58,7 +58,12 @@ final class OnboardingScreen: UIViewController {
     }
     
     @IBAction private func start() {
+        
         let tabBarController = TabBarController()
+        
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        sceneDelegate?.window?.rootViewController = tabBarController
+        
         tabBarController.modalPresentationStyle = .fullScreen
         self.present(tabBarController, animated: true, completion: nil)
     }
