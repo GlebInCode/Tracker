@@ -76,7 +76,6 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
         return pages[previousIndex]
     }
     
-    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
             return nil
@@ -88,9 +87,7 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
         
         return pages[nextIndex]
     }
-    
 }
-
 
 // MARK: Extension - UIPageViewControllerDelegate
 

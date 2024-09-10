@@ -19,7 +19,6 @@
 		F732DBFC2C8B462400E7FFFE /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DBFB2C8B462300E7FFFE /* OnboardingViewController.swift */; };
 		F732DBFE2C8B473100E7FFFE /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DBFD2C8B473100E7FFFE /* OnboardingScreen.swift */; };
 		F732DC202C8F49C100E7FFFE /* CategoryTrackerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DC1F2C8F49C100E7FFFE /* CategoryTrackerViewModel.swift */; };
-		F732DC222C8F4A4A00E7FFFE /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DC212C8F4A4A00E7FFFE /* Binding.swift */; };
 		F732DC242C8F86BC00E7FFFE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DC232C8F86BC00E7FFFE /* Constants.swift */; };
 		F74DC6BC2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74DC6BB2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift */; };
 		F78AC5462C5CE13000FD78D5 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */; };
@@ -61,7 +60,6 @@
 		F732DBFB2C8B462300E7FFFE /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F732DBFD2C8B473100E7FFFE /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
 		F732DC1F2C8F49C100E7FFFE /* CategoryTrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTrackerViewModel.swift; sourceTree = "<group>"; };
-		F732DC212C8F4A4A00E7FFFE /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		F732DC232C8F86BC00E7FFFE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F74DC6BB2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewHeader.swift; sourceTree = "<group>"; };
 		F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 			children = (
 				F78AC5542C6220AA00FD78D5 /* UIComponents */,
 				F78AC54C2C60EA8D00FD78D5 /* Colors + Extension.swift */,
-				F732DC212C8F4A4A00E7FFFE /* Binding.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -339,7 +336,6 @@
 				F7D0C69F2C5248E500262406 /* AppDelegate.swift in Sources */,
 				F78AC54A2C60DB7500FD78D5 /* CustomBlakButton.swift in Sources */,
 				F7D0C6A12C5248E500262406 /* SceneDelegate.swift in Sources */,
-				F732DC222C8F4A4A00E7FFFE /* Binding.swift in Sources */,
 				F7D0C6D32C526A2900262406 /* TrackerViewController.swift in Sources */,
 				F732DB992C73829500E7FFFE /* Store.swift in Sources */,
 				F732DBFC2C8B462400E7FFFE /* OnboardingViewController.swift in Sources */,
@@ -578,7 +574,7 @@
 			);
 			currentVersion = F732DB8B2C6F835C00E7FFFE /* DateModel.xcdatamodel */;
 			name = DateModel.xcdatamodeld;
-			path = /Users/gleb/Desktop/YandexPr/Tracker/Tracker/Tracker/DateModel.xcdatamodeld;
+			path = ../Tracker/DateModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

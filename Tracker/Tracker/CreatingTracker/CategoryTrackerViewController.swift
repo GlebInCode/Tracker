@@ -155,6 +155,7 @@ extension CategoryTrackerViewController: UITableViewDelegate {
             }
             viewModel.didSelectCategory(title)
             delegate?.updateСurrentCategory()
+            tableView.reloadData()
             dismiss(animated: true, completion: nil)
         }
     }

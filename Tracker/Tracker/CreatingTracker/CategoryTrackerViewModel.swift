@@ -12,11 +12,11 @@ final class CategoryTrackerViewModel {
     // MARK: - Public Properties
 
     var categories: [TrackerCategory] = []
-    var selectedCategory: String?
     
     // MARK: - Private Properties
         
     private let trackerCategoryStore = TrackerCategoryStore()
+    private var selectedCategory: String?
     
     // MARK: - Initialization
     
