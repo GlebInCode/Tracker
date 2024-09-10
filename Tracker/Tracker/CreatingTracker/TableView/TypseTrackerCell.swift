@@ -66,8 +66,17 @@ final class TypseTrackerCell: UITableViewCell {
         botSeparator.isHidden = hideBotSeparator
     }
     
-    func addSublabel(){
+    func addSublabel() {
         stackLable.addArrangedSubview(subLable)
+    }
+    
+    func configCell(_ title: String, _ selected: Bool) {
+        if selected {
+            image.image = UIImage(systemName: "checkmark")
+        } else {
+            image.image = .none
+        }
+        lable.text = title
     }
     
     // MARK: - View Layout

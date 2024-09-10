@@ -10,7 +10,7 @@ import UIKit
 // MARK: - Protocol: CategoryTrackerViewControllerDelegate
 
 protocol CategoryTrackerViewControllerDelegate: AnyObject {
-    func updateСurrentCategory(_ nameCategory: String)
+    func updateСurrentCategory()
 }
 
 final class CategoryTrackerViewController: UIViewController {
@@ -18,10 +18,10 @@ final class CategoryTrackerViewController: UIViewController {
     // MARK: - Public Properties
 
     weak var delegate: CategoryTrackerViewControllerDelegate?
-    var categories: [TrackerCategory] = []
-    var selectedCategory: String?
     
-    private let trackerCategoryStore = TrackerCategoryStore()
+    // MARK: - Private Properties
+    
+    private var viewModel = CategoryTrackerViewModel()
     
     // MARK: - UI Components
 
@@ -53,11 +53,11 @@ final class CategoryTrackerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
-        updateCategory()
+
         setupTable()
         setupLayout()
-        if categories.count > 0 {
+        
+        if viewModel.categories.count > 0 {
             layoutTable()
         } else {
             loadDefaultImage()
@@ -77,14 +77,6 @@ final class CategoryTrackerViewController: UIViewController {
     private func setupTable() {
         tableView.dataSource = self
         tableView.delegate = self
-    }
-    
-    private func updateCategory() {
-        do {
-            categories = try trackerCategoryStore.getCategory()
-        } catch {
-            print("Данные не доступны")
-        }
     }
     
     // MARK: - View Layout
@@ -129,7 +121,7 @@ final class CategoryTrackerViewController: UIViewController {
 
 extension CategoryTrackerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        categories.count
+        viewModel.countCategory()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -138,16 +130,16 @@ extension CategoryTrackerViewController: UITableViewDataSource {
         guard let typseTrackerCell = cell as? TypseTrackerCell else {
             return UITableViewCell()
         }
-        if categories[indexPath.row].title == selectedCategory {
-            typseTrackerCell.image.image = UIImage(systemName: "checkmark")
-        } else {
-            typseTrackerCell.image.image = .none
-        }
-        typseTrackerCell.lable.text = categories[indexPath.row].title
+
+        let title = viewModel.titleCell(indexPath.row)
+        let selected = viewModel.selectedCell(title)
+        
+        typseTrackerCell.configCell(title, selected)
+        
         self.tableView.roundingVorners(cell: typseTrackerCell, tableView: tableView, indexPath: indexPath)
         
         typseTrackerCell.setup(hideTopSeparator: indexPath.row == 0,
-                               hideBotSeparator: indexPath.row == categories.count - 1)
+                               hideBotSeparator: indexPath.row == viewModel.countCategory() - 1)
         
         return typseTrackerCell
     }
@@ -158,15 +150,12 @@ extension CategoryTrackerViewController: UITableViewDataSource {
 extension CategoryTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? TypseTrackerCell {
-            cell.image.image = UIImage(systemName: "checkmark")
-            selectedCategory = cell.lable.text
-            guard let nameCategory = cell.lable.text else {
+            guard let title = cell.lable.text else {
                 return print("Выбрана пустая ячейка")
             }
-            
-            if let delegate {
-                delegate.updateСurrentCategory(nameCategory)
-            }
+            viewModel.didSelectCategory(title)
+            delegate?.updateСurrentCategory()
+            tableView.reloadData()
             dismiss(animated: true, completion: nil)
         }
     }
@@ -181,9 +170,8 @@ extension CategoryTrackerViewController: UITableViewDelegate {
 
 extension CategoryTrackerViewController: NewCategoryViewControllerDelegate {
     func updateCategory(_ title: String) {
-        if let delegate = delegate {
-            delegate.updateСurrentCategory(title)
-        }
+        viewModel.didSelectCategory(title)
+        delegate?.updateСurrentCategory()
         dismiss(animated: true, completion: nil)
     }
 }

@@ -151,6 +151,10 @@ final class SettingHabitViewController: UIViewController {
         setupLayout()
     }
     
+    deinit {
+        UserDefaults.standard.removeObject(forKey: Constants.selectedCategory)
+    }
+    
     // MARK: - IBActions
 
     @IBAction private func create() {
@@ -258,6 +262,13 @@ final class SettingHabitViewController: UIViewController {
         tableView.isScrollEnabled = false
     }
     
+    private func loadSelectedCategory() {
+        guard let title = UserDefaults.standard.string(
+            forKey: Constants.selectedCategory
+        ) else { return }
+        nameCategory = title
+    }
+    
     // MARK: - View Layout
 
     private func setupLayout() {
@@ -353,9 +364,6 @@ extension SettingHabitViewController: UITableViewDelegate {
         if indexPath.row == 0 {
             let categoryTrackerVC = CategoryTrackerViewController()
             categoryTrackerVC.delegate = self
-            if let nameCategory {
-                categoryTrackerVC.selectedCategory = nameCategory
-            }
             self.present(categoryTrackerVC, animated:  true, completion: nil)
         } else if indexPath.row == 1 {
             let habitScheduleVC = HabitScheduleViewController()
@@ -369,8 +377,8 @@ extension SettingHabitViewController: UITableViewDelegate {
 // MARK: - Extension: CategoryTrackerViewControllerDelegate
 
 extension SettingHabitViewController: CategoryTrackerViewControllerDelegate {
-    func updateСurrentCategory(_ nameCategory: String) {
-        self.nameCategory = nameCategory
+    func updateСurrentCategory() {
+        loadSelectedCategory()
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.reloadRows(at: [indexPath], with: .automatic)
         canPerformAction()
