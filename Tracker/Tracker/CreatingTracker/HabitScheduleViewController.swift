@@ -84,10 +84,9 @@ final class HabitScheduleViewController: UIViewController {
     private func shouldEnableButton() {
         if daySelections.contains(where: { $0.value }) {
             readyButton.isEnabled = true
-            readyButton.backgroundColor = .ypBlack
         } else {
             readyButton.isEnabled = false
-            readyButton.backgroundColor = .ypGray        }
+        }
     }
     
     private func setupTable() {

@@ -15,6 +15,9 @@ extension UIColor {
     static var ypLightGray: UIColor { UIColor(named: "Light Gray") ?? UIColor.darkGray }
     static var ypRed: UIColor { UIColor(named: "Red") ?? UIColor.darkGray }
     static var ypWhite: UIColor { UIColor(named: "White") ?? UIColor.darkGray }
+    
+    static var ypTabBarGray: UIColor { UIColor(named: "TabBarGray") ?? UIColor.darkGray }
+    
 }
 
 extension UIColor {

@@ -44,6 +44,8 @@ final class TrackerViewController: UIViewController {
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.overrideUserInterfaceStyle = .light
+        datePicker.backgroundColor = .ypWhite
         datePicker.layer.cornerRadius = 8
         datePicker.layer.masksToBounds = true
         datePicker.datePickerMode = .date
@@ -96,6 +98,7 @@ final class TrackerViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .none
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -399,11 +402,13 @@ extension TrackerViewController: TrackerCellDelegate {
                     let dateCompleted = Calendar.current.dateComponents([.day, .month, .year], from: dateCompletedDate)
                     if selectedDate == dateCompleted {
                         trackerRecordStore.deleteTrackerRecord(trackerId: id, date: dateCompletedDate)
+                        udateDate()
                         return
                     }
                 }
             }
         }
         trackerRecordStore.addNewTrackerRecord(trackerId: id, date: selectedDate)
+        udateDate()
     }
 }

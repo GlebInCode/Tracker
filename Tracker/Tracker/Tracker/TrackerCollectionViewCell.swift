@@ -41,6 +41,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     private lazy var smail: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
+        lable.overrideUserInterfaceStyle = .light
         lable.layer.cornerRadius = 12
         lable.layer.masksToBounds = true
         lable.textAlignment = .center
@@ -92,7 +93,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        backgroundColor = .none
         setupConstraints()
     }
     

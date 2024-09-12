@@ -13,6 +13,20 @@ final class CustomBlakButton: UIButton {
         setupButton()
     }
     
+    override var isEnabled: Bool {
+        didSet {
+            if isEnabled {
+                backgroundColor = .ypBlack
+                setTitleColor(.ypWhite, for: .normal)
+            } else {
+                backgroundColor = .ypGray
+                if traitCollection.userInterfaceStyle == .dark {
+                    setTitleColor(.ypBlack, for: .normal)
+                }
+            }
+        }
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupButton()

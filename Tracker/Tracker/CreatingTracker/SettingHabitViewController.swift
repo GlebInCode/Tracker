@@ -77,27 +77,20 @@ final class SettingHabitViewController: UIViewController {
         return lable
     }()
     
-    private lazy var createButton: UIButton = {
-        let button = UIButton()
+    private lazy var createButton: CustomBlakButton = {
+        let button = CustomBlakButton()
+        button.isEnabled = false
         let emptyStateText = NSLocalizedString("settingTracker.buttonCreate", comment: "Создать")
         button.setTitle(emptyStateText, for: .normal)
-        button.setTitleColor(.ypWhite, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.layer.cornerRadius = 16
-        button.layer.masksToBounds = true
-        button.backgroundColor = .ypGray
         button.addTarget(self, action: #selector(create), for: .touchUpInside)
         return button
     }()
     
-    private lazy var cancellationButton: UIButton = {
-        let button = UIButton()
+    private lazy var cancellationButton: CustomBlakButton = {
+        let button = CustomBlakButton()
         let emptyStateText = NSLocalizedString("settingTracker.buttonCancel", comment: "Отменить")
         button.setTitle(emptyStateText, for: .normal)
         button.setTitleColor(.ypRed, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.layer.cornerRadius = 16
-        button.layer.masksToBounds = true
         button.backgroundColor = .none
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.ypRed.cgColor
@@ -236,18 +229,14 @@ final class SettingHabitViewController: UIViewController {
         case .habit:
             if nameTracker.count > 0, schedule.count > 0, let _ = nameCategory, let _ = selectColor, let _ = selectEmoji {
                 createButton.isEnabled = true
-                createButton.backgroundColor = .ypBlack
             } else {
                 createButton.isEnabled = false
-                createButton.backgroundColor = .ypGray
             }
         case .event:
             if nameTracker.count > 0, let _ = nameCategory, let _ = selectColor, let _ = selectEmoji {
                 createButton.isEnabled = true
-                createButton.backgroundColor = .ypBlack
             } else {
                 createButton.isEnabled = false
-                createButton.backgroundColor = .ypGray
             }
         case nil:
             return

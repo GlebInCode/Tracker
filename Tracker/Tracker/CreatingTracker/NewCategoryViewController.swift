@@ -40,7 +40,7 @@ final class NewCategoryViewController: UIViewController {
     
     private lazy var readyButton: UIButton = {
         let button = CustomBlakButton()
-        button.backgroundColor = .ypGray
+//        button.backgroundColor = .ypGray
         button.isEnabled = false
         let emptyStateText = NSLocalizedString("newCategoryTracker.buttonCreate", comment: "Готово")
         button.setTitle(emptyStateText, for: .normal)
@@ -62,10 +62,8 @@ final class NewCategoryViewController: UIViewController {
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             readyButton.isEnabled = true
-            readyButton.backgroundColor = .ypBlack
         } else {
             readyButton.isEnabled = false
-            readyButton.backgroundColor = .ypGray
         }
     }
     
