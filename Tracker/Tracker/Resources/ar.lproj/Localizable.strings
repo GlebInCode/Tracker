@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Глеб Хамин on 11.09.2024.
+  
+*/
+"onboarding.title1" = "تتبع فقط ما تريد";
+"onboarding.title2" = "حتى لو لم يكن لترات الماء ويوجا";
+"onboarding.button" = "هذه التكنولوجيا!";
+
+"main.trackers" = "متابعون";
+"main.search" = "بحث";
+"main.statictics" = "إحصائيات";
+"main.placeholder" = "ما الذي نتابعه؟";
+
+"creatingTracker.title" = "إنشاء متابع";
+"creatingTracker.habit" = "عادة";
+"creatingTracker.event" = "أحداث غير منتظمة";
+
+"settingTracker.titleHabit" = "عادة جديدة";
+"settingTracker.titleEvent" = "حدث غير منتظم جديد";
+"settingTracker.nameTracker" = "أدخل اسم المتابع";
+"settingTracker.categoryTracker" = "فئة";
+"settingTracker.sheduleTracker" = "جدول";
+"settingTracker.emojiTracker" = "إيموجي";
+"settingTracker.colorTracker" = "لون";
+"settingTracker.buttonCancel" = "إلغاء";
+"settingTracker.buttonCreate" = "إنشاء";
+"settingTracker.nameCountLimitation" = "حد 38 حرف";
+
+"settingTracker.sheduleTracker.everyDay" = "كل يوم";
+"settingTracker.sheduleTracker.monday" = "الإثنين";
+"settingTracker.sheduleTracker.tuesday" = "الثلاثاء";
+"settingTracker.sheduleTracker.wednesday" = "الأربعاء";
+"settingTracker.sheduleTracker.thusday" = "الخميس";
+"settingTracker.sheduleTracker.friday" = "الجمعة";
+"settingTracker.sheduleTracker.saturday" = "السبت";
+"settingTracker.sheduleTracker.sunday" = "الأحد";
+
+"categoryTracker.title" = "فئة";
+"categoryTracker.placeholder" = "يمكنك تجميع العادات والأحداث حسب المعنى";
+"categoryTracker.buttonAddCategory" = "أضف فئة";
+
+"newCategoryTracker.title" = "فئة جديدة";
+"newCategoryTracker.name" = "أدخل اسم الفئة";
+"newCategoryTracker.buttonCreate" = "تم";
+
+"shaduleTracker.title" = "جدول";
+"shaduleTracker.monday" = "الإثنين";
+"shaduleTracker.tuesday" = "الثلاثاء";
+"shaduleTracker.wednesday" = "الأربعاء";
+"shaduleTracker.thusday" = "الخميس";
+"shaduleTracker.friday" = "الجمعة";
+"shaduleTracker.saturday" = "السبت";
+"shaduleTracker.sunday" = "الأحد";
+"shaduleTracker.buttonCreate" = "تم";

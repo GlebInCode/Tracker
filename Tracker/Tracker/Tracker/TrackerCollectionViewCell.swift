@@ -133,18 +133,13 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     func updateCountDays(day: Int) {
         countDays = day
-        var textLable = ""
-        let dayMod = countDays % 10
-            let dayMod100 = countDays % 100
-            
-            if dayMod == 1 && dayMod100 != 11 {
-                textLable = "\(countDays) день"
-            } else if dayMod >= 2 && dayMod <= 4 && (dayMod100 < 10 || dayMod100 >= 20) {
-                textLable = "\(countDays) дня"
-            } else {
-                textLable = "\(countDays) дней"
-            }
-        counterLable.text = textLable
+        
+        let tasksString = String.localizedStringWithFormat(
+            NSLocalizedString("numberOfTasks", comment: "Number of remaining tasks"),
+            day
+        )
+        
+        counterLable.text = tasksString
     }
     
     func apdateMark() {

@@ -20,6 +20,8 @@
 		F732DBFE2C8B473100E7FFFE /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DBFD2C8B473100E7FFFE /* OnboardingScreen.swift */; };
 		F732DC202C8F49C100E7FFFE /* CategoryTrackerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DC1F2C8F49C100E7FFFE /* CategoryTrackerViewModel.swift */; };
 		F732DC242C8F86BC00E7FFFE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F732DC232C8F86BC00E7FFFE /* Constants.swift */; };
+		F732DC322C91EB2400E7FFFE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F732DC302C91EB2400E7FFFE /* Localizable.strings */; };
+		F732DC352C91EB2F00E7FFFE /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = F732DC332C91EB2F00E7FFFE /* Localizable.stringsdict */; };
 		F74DC6BC2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74DC6BB2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift */; };
 		F78AC5462C5CE13000FD78D5 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */; };
 		F78AC5482C60D67700FD78D5 /* CreatingTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78AC5472C60D67600FD78D5 /* CreatingTrackerViewController.swift */; };
@@ -61,6 +63,17 @@
 		F732DBFD2C8B473100E7FFFE /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
 		F732DC1F2C8F49C100E7FFFE /* CategoryTrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTrackerViewModel.swift; sourceTree = "<group>"; };
 		F732DC232C8F86BC00E7FFFE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F732DC312C91EB2400E7FFFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F732DC342C91EB2F00E7FFFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		F732DC362C91FD6500E7FFFE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F732DC372C91FD6500E7FFFE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F732DC382C91FD6500E7FFFE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		F732DC392C91FD7E00E7FFFE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F732DC3A2C91FD7E00E7FFFE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F732DC3B2C91FD7E00E7FFFE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		F732DC3C2C91FD8B00E7FFFE /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F732DC3D2C91FD8B00E7FFFE /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F732DC3E2C91FD8B00E7FFFE /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ar; path = ar.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F74DC6BB2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewHeader.swift; sourceTree = "<group>"; };
 		F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
 		F78AC5472C60D67600FD78D5 /* CreatingTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingTrackerViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +142,15 @@
 				F732DBFD2C8B473100E7FFFE /* OnboardingScreen.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		F732DC2F2C91EAFE00E7FFFE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F732DC302C91EB2400E7FFFE /* Localizable.strings */,
+				F732DC332C91EB2F00E7FFFE /* Localizable.stringsdict */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		F78AC54B2C60EA6700FD78D5 /* Helpers */ = {
@@ -218,6 +240,7 @@
 				F7D0C71C2C59226D00262406 /* Structures */,
 				F732DBFA2C8B45F600E7FFFE /* Onboarding */,
 				F78AC54B2C60EA6700FD78D5 /* Helpers */,
+				F732DC2F2C91EAFE00E7FFFE /* Resources */,
 				F7D0C6A72C5248E900262406 /* Assets.xcassets */,
 				F7D0C6A92C5248E900262406 /* LaunchScreen.storyboard */,
 				F7D0C6AC2C5248E900262406 /* Info.plist */,
@@ -277,6 +300,9 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				de,
+				ar,
 			);
 			mainGroup = F7D0C6922C5248E500262406;
 			productRefGroup = F7D0C69C2C5248E500262406 /* Products */;
@@ -294,6 +320,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7D0C6A82C5248E900262406 /* Assets.xcassets in Resources */,
+				F732DC352C91EB2F00E7FFFE /* Localizable.stringsdict in Resources */,
+				F732DC322C91EB2400E7FFFE /* Localizable.strings in Resources */,
 				F7D0C6AB2C5248E900262406 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,10 +375,35 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		F732DC302C91EB2400E7FFFE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F732DC312C91EB2400E7FFFE /* en */,
+				F732DC372C91FD6500E7FFFE /* ru */,
+				F732DC3A2C91FD7E00E7FFFE /* de */,
+				F732DC3D2C91FD8B00E7FFFE /* ar */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		F732DC332C91EB2F00E7FFFE /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F732DC342C91EB2F00E7FFFE /* en */,
+				F732DC382C91FD6500E7FFFE /* ru */,
+				F732DC3B2C91FD7E00E7FFFE /* de */,
+				F732DC3E2C91FD8B00E7FFFE /* ar */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
 		F7D0C6A92C5248E900262406 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F7D0C6AA2C5248E900262406 /* Base */,
+				F732DC362C91FD6500E7FFFE /* ru */,
+				F732DC392C91FD7E00E7FFFE /* de */,
+				F732DC3C2C91FD8B00E7FFFE /* ar */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -363,6 +416,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -426,6 +480,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

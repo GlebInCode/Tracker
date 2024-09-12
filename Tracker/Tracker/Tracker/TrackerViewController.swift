@@ -47,7 +47,6 @@ final class TrackerViewController: UIViewController {
         datePicker.layer.cornerRadius = 8
         datePicker.layer.masksToBounds = true
         datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "ru_RU")
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         return datePicker
@@ -56,7 +55,8 @@ final class TrackerViewController: UIViewController {
     private lazy var titleLable: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
-        lable.text = "Трекеры"
+        let emptyStateText = NSLocalizedString("main.trackers", comment: "Трекеры")
+        lable.text = emptyStateText
         lable.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         return lable
     }()
@@ -65,7 +65,8 @@ final class TrackerViewController: UIViewController {
         let textField = UITextField()
         textField.textColor = UIColor(named: "Gray")
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        textField.placeholder = "Поиск"
+        let emptyStateText = NSLocalizedString("main.search", comment: "Поиск")
+        textField.placeholder = emptyStateText
         textField.backgroundColor = .ypBackground
         textField.layer.cornerRadius = 9
         textField.layer.masksToBounds = true
@@ -85,7 +86,8 @@ final class TrackerViewController: UIViewController {
     private lazy var noDataView: NoDataView = {
         let view = NoDataView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "Что будем отслеживать?"
+        let emptyStateText = NSLocalizedString("main.placeholder", comment: "Что будем отслеживать?")
+        view.text = emptyStateText
         view.image = UIImage(named: "NoContent")
         return view
     }()
@@ -279,7 +281,7 @@ final class TrackerViewController: UIViewController {
             addTrecarButton.heightAnchor.constraint(equalToConstant: 42),
             
             datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
-            datePicker.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             titleLable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             titleLable.topAnchor.constraint(equalTo: addTrecarButton.bottomAnchor),

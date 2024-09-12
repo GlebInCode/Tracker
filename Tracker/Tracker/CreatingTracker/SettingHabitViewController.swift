@@ -40,7 +40,11 @@ final class SettingHabitViewController: UIViewController {
         .saturday,
         .sunday
     ]
-    private let settingSection = ["Emoji", "Цвет"]
+    
+    private let settingSection = [
+        NSLocalizedString("settingTracker.emojiTracker", comment: "Emoji"),
+        NSLocalizedString("settingTracker.colorTracker", comment: "Цвет")
+    ]
     private let emojies = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
@@ -63,9 +67,11 @@ final class SettingHabitViewController: UIViewController {
         if let trackerType = trackerType {
             switch trackerType {
             case .habit:
-                lable.text = "Новая привычка"
+                let emptyStateText = NSLocalizedString("settingTracker.titleHabit", comment: "Новая привычка")
+                lable.text = emptyStateText
             case .event:
-                lable.text = "Новое нерегулярное событие"
+                let emptyStateText = NSLocalizedString("settingTracker.titleEvent", comment: "Новое нерегулярное событие")
+                lable.text = emptyStateText
             }
         }
         return lable
@@ -73,7 +79,8 @@ final class SettingHabitViewController: UIViewController {
     
     private lazy var createButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Создать", for: .normal)
+        let emptyStateText = NSLocalizedString("settingTracker.buttonCreate", comment: "Создать")
+        button.setTitle(emptyStateText, for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
@@ -85,7 +92,8 @@ final class SettingHabitViewController: UIViewController {
     
     private lazy var cancellationButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Отменить", for: .normal)
+        let emptyStateText = NSLocalizedString("settingTracker.buttonCancel", comment: "Отменить")
+        button.setTitle(emptyStateText, for: .normal)
         button.setTitleColor(.ypRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.layer.cornerRadius = 16
@@ -107,7 +115,8 @@ final class SettingHabitViewController: UIViewController {
     }()
     
     private lazy var textFieldNameTracker: CustomTextFiel = {
-        let textField = CustomTextFiel(placeholder: "Введите название трекера")
+        let emptyStateText = NSLocalizedString("settingTracker.nameTracker", comment: "Введите название трекера")
+        let textField = CustomTextFiel(placeholder: emptyStateText)
         textField.delegate = self
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
@@ -246,14 +255,16 @@ final class SettingHabitViewController: UIViewController {
     }
     
     private func defineCellsTable(){
-            switch trackerType {
-            case .habit:
-                return cellsTable = ["Категория", "Расписание"]
-            case .event:
-                return cellsTable = ["Категория"]
-            case .none:
-                return cellsTable = []
-            }
+        let emptyStateText1 = NSLocalizedString("settingTracker.categoryTracker", comment: "Категория")
+        let emptyStateText2 = NSLocalizedString("settingTracker.sheduleTracker", comment: "Расписание")
+        switch trackerType {
+        case .habit:
+            return cellsTable = [emptyStateText1, emptyStateText2]
+        case .event:
+            return cellsTable = [emptyStateText1]
+        case .none:
+            return cellsTable = []
+        }
     }
     
     private func setupTable() {
@@ -400,26 +411,34 @@ extension SettingHabitViewController: HabitScheduleViewControllerDelegate {
         var scheduleString = ""
         
         if daySelections.allSatisfy({ $0.value }) {
-            return "Каждый день"
+            let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.everyDay", comment: "Каждый день")
+            return emptyStateText
         }
         for day in daysOfWeek {
             if daySelections[day] ?? false {
                 var dayAbbreviation = ""
                 switch day {
                 case .monday:
-                    dayAbbreviation = "Пн"
+                    let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.monday", comment: "Пн")
+                    dayAbbreviation = emptyStateText
                 case .tuesday:
-                    dayAbbreviation = "Вт"
+                    let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.tuesday", comment: "Вт")
+                    dayAbbreviation = emptyStateText
                 case .wednesday:
-                    dayAbbreviation = "Ср"
+                    let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.wednesday", comment: "Ср")
+                    dayAbbreviation = emptyStateText
                 case .thursday:
-                    dayAbbreviation = "Чт"
+                    let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.thusday", comment: "Чт")
+                    dayAbbreviation = emptyStateText
                 case .friday:
-                    dayAbbreviation = "Пт"
+                    let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.friday", comment: "Пт")
+                    dayAbbreviation = emptyStateText
                 case .saturday:
-                    dayAbbreviation = "Сб"
+                    let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.saturday", comment: "Сб")
+                    dayAbbreviation = emptyStateText
                 case .sunday:
-                    dayAbbreviation = "Вс"
+                    let emptyStateText = NSLocalizedString("settingTracker.sheduleTracker.sunday", comment: "Вс")
+                    dayAbbreviation = emptyStateText
                 }
                 scheduleString = scheduleString.isEmpty ? dayAbbreviation : scheduleString + ", \(dayAbbreviation)"
             }

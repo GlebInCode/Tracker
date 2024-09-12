@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Глеб Хамин on 11.09.2024.
+  
+*/
+"onboarding.title1" = "Verfolgen Sie nur, was Sie wollen";
+"onboarding.title2" = "Auch wenn es nicht Liter Wasser und Yoga sind";
+"onboarding.button" = "Das ist Technologie!";
+
+"main.trackers" = "Tracker";
+"main.search" = "Suchen";
+"main.statictics" = "Statistiken";
+"main.placeholder" = "Was verfolgen wir?";
+
+"creatingTracker.title" = "Tracker erstellen";
+"creatingTracker.habit" = "Gewohnheit";
+"creatingTracker.event" = "Unregelmäßige Ereignisse";
+
+"settingTracker.titleHabit" = "Neue Gewohnheit";
+"settingTracker.titleEvent" = "Neues unregelmäßiges Ereignis";
+"settingTracker.nameTracker" = "Tracker-Name eingeben";
+"settingTracker.categoryTracker" = "Kategorie";
+"settingTracker.sheduleTracker" = "Zeitplan";
+"settingTracker.emojiTracker" = "Emoji";
+"settingTracker.colorTracker" = "Farbe";
+"settingTracker.buttonCancel" = "Abbrechen";
+"settingTracker.buttonCreate" = "Erstellen";
+"settingTracker.nameCountLimitation" = "38 Zeichen limit";
+
+"settingTracker.sheduleTracker.everyDay" = "Jeden Tag";
+"settingTracker.sheduleTracker.monday" = "Mo";
+"settingTracker.sheduleTracker.tuesday" = "Di";
+"settingTracker.sheduleTracker.wednesday" = "Mi";
+"settingTracker.sheduleTracker.thusday" = "Do";
+"settingTracker.sheduleTracker.friday" = "Fr";
+"settingTracker.sheduleTracker.saturday" = "Sa";
+"settingTracker.sheduleTracker.sunday" = "So";
+
+"categoryTracker.title" = "Kategorie";
+"categoryTracker.placeholder" = "Sie können Gewohnheiten und Ereignisse nach Bedeutung grupieren";
+"categoryTracker.buttonAddCategory" = "Kategorie hinzufügen";
+
+"newCategoryTracker.title" = "Neue Kategorie";
+"newCategoryTracker.name" = "Kategoriename eingeben";
+"newCategoryTracker.buttonCreate" = "Fertig";
+
+"shaduleTracker.title" = "Zeitplan";
+"shaduleTracker.monday" = "Montag";
+"shaduleTracker.tuesday" = "Dienstag";
+"shaduleTracker.wednesday" = "Mittwoch";
+"shaduleTracker.thusday" = "Donnerstag";
+"shaduleTracker.friday" = "Freitag";
+"shaduleTracker.saturday" = "Samstag";
+"shaduleTracker.sunday" = "Sonntag";
+"shaduleTracker.buttonCreate" = "Fertig";

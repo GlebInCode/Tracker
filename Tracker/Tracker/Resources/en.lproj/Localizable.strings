@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Глеб Хамин on 11.09.2024.
+  
+*/
+"onboarding.title1" = "Track only what you want";
+"onboarding.title2" = "Even if it's not liters of water and yoga";
+"onboarding.button" = "That's technology!";
+
+"main.trackers" = "Trackers";
+"main.search" = "Search";
+"main.statictics" = "Statistics";
+"main.placeholder" = "What are we tracking?";
+
+"creatingTracker.title" = "Create Tracker";
+"creatingTracker.habit" = "Habit";
+"creatingTracker.event" = "Irregular Events";
+
+"settingTracker.titleHabit" = "New Habit";
+"settingTracker.titleEvent" = "New Irregular Event";
+"settingTracker.nameTracker" = "Enter tracker name";
+"settingTracker.categoryTracker" = "Category";
+"settingTracker.sheduleTracker" = "Schedule";
+"settingTracker.emojiTracker" = "Emoji";
+"settingTracker.colorTracker" = "Color";
+"settingTracker.buttonCancel" = "Cancel";
+"settingTracker.buttonCreate" = "Create";
+"settingTracker.nameCountLimitation" = "38 character limit";
+
+"settingTracker.sheduleTracker.everyDay" = "Every Day";
+"settingTracker.sheduleTracker.monday" = "Mon";
+"settingTracker.sheduleTracker.tuesday" = "Tue";
+"settingTracker.sheduleTracker.wednesday" = "Wed";
+"settingTracker.sheduleTracker.thusday" = "Thu";
+"settingTracker.sheduleTracker.friday" = "Fri";
+"settingTracker.sheduleTracker.saturday" = "Sat";
+"settingTracker.sheduleTracker.sunday" = "Sun";
+
+"categoryTracker.title" = "Category";
+"categoryTracker.placeholder" = "You can group habits and events by meaning";
+"categoryTracker.buttonAddCategory" = "Add Category";
+
+"newCategoryTracker.title" = "New Category";
+"newCategoryTracker.name" = "Enter category name";
+"newCategoryTracker.buttonCreate" = "Done";
+
+"shaduleTracker.title" = "Schedule";
+"shaduleTracker.monday" = "Monday";
+"shaduleTracker.tuesday" = "Tuesday";
+"shaduleTracker.wednesday" = "Wednesday";
+"shaduleTracker.thusday" = "Thursday";
+"shaduleTracker.friday" = "Friday";
+"shaduleTracker.saturday" = "Saturday";
+"shaduleTracker.sunday" = "Sunday";
+"shaduleTracker.buttonCreate" = "Done";

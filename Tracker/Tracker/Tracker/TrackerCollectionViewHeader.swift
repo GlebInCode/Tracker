@@ -13,7 +13,7 @@ final class TrackerCollectionViewHeader: UICollectionReusableView {
     
     lazy var textLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
+        label.textAlignment = .natural
         label.frame = bounds
         label.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false

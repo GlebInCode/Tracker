@@ -27,21 +27,24 @@ final class CategoryTrackerViewController: UIViewController {
 
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
-        lable.text = "Категория"
+        let emptyStateText = NSLocalizedString("categoryTracker.title", comment: "Категория")
+        lable.text = emptyStateText
         return lable
     }()
     
     private lazy var noDataView: NoDataView = {
         let view = NoDataView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "Привычки и события можно\nобъединить по смыслу"
+        let emptyStateText = NSLocalizedString("categoryTracker.placeholder", comment: "Привычки и события можно объединять по смыслу")
+        view.text = emptyStateText
         view.image = UIImage(named: "NoContent")
         return view
     }()
             
     private lazy var addCategoryButton: UIButton = {
         let button = CustomBlakButton()
-        button.setTitle("Добавить категорию", for: .normal)
+        let emptyStateText = NSLocalizedString("categoryTracker.buttonAddCategory", comment: "Добавить категорию")
+        button.setTitle(emptyStateText, for: .normal)
         button.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
         return button
     }()
@@ -111,8 +114,8 @@ final class CategoryTrackerViewController: UIViewController {
         NSLayoutConstraint.activate([
             noDataView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
             noDataView.bottomAnchor.constraint(equalTo: addCategoryButton.topAnchor),
-            noDataView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            noDataView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            noDataView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            noDataView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }

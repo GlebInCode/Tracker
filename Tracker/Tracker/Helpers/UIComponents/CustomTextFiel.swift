@@ -41,6 +41,7 @@ final class CustomTextFiel: UITextField {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         textField.clearButtonMode = .whileEditing
+        textField.textAlignment = .natural
         return textField
     }()
     

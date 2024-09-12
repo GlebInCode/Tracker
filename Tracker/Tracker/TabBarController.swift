@@ -16,15 +16,17 @@ class TabBarController: UITabBarController {
     }
     
     private func generateTabBar() {
+        let emptyStateText1 = NSLocalizedString("main.trackers", comment: "Трекеры")
+        let emptyStateText2 = NSLocalizedString("main.statictics", comment: "Статистика")
         viewControllers = [
             generateVC(
                 viewController: TrackerViewController(),
-                title: "Трекер",
+                title: emptyStateText1,
                 image: UIImage(named: "Tracker")
             ),
             generateVC(
                 viewController: StaticticsViewController(),
-                title: "Статистика",
+                title: emptyStateText2,
                 image: UIImage(named: "Statistics")
             )
         ]
