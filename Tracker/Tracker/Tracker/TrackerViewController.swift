@@ -89,6 +89,15 @@ final class TrackerViewController: UIViewController {
         return view
     }()
     
+    private lazy var noSearchView: NoDataView = {
+        let view = NoDataView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        let emptyStateText = NSLocalizedString("main.noSearch", comment: "Ничего не найдено")
+        view.text = emptyStateText
+        view.image = UIImage(named: "SearchError")
+        return view
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -156,8 +165,10 @@ final class TrackerViewController: UIViewController {
             filterSerchText = searchText
             updatefilterSerch()
         } else {
+            filterSerchText = nil
             filterSerchDayTrackers = targetDayTrackers
         }
+        showContentOrPlaceholder()
         collectionView.reloadData()
     }
     
@@ -203,11 +214,19 @@ final class TrackerViewController: UIViewController {
     
     private func showContentOrPlaceholder() {
         if targetDayTrackers.count > 0 {
-            layoutCollection()
-            
-            noDataView.removeFromSuperview()
+            if filterSerchDayTrackers.count > 0 {
+                layoutCollection()
+                
+                noSearchView.removeFromSuperview()
+                noDataView.removeFromSuperview()
+            } else {
+                
+                noDataView.removeFromSuperview()
+                loadDefaultImage(noSearchView)
+            }
         } else {
-            loadDefaultImage()
+            noSearchView.removeFromSuperview()
+            loadDefaultImage(noDataView)
             
         }
     }
@@ -325,14 +344,14 @@ final class TrackerViewController: UIViewController {
         ])
     }
     
-    private func loadDefaultImage() {
-        view.addSubview(noDataView)
+    private func loadDefaultImage(_ placeholders: UIView) {
+        view.addSubview(placeholders)
         
         NSLayoutConstraint.activate([
-            noDataView.topAnchor.constraint(equalTo: serchLine.bottomAnchor, constant: 10),
-            noDataView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            noDataView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            noDataView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            placeholders.topAnchor.constraint(equalTo: serchLine.bottomAnchor, constant: 10),
+            placeholders.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            placeholders.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            placeholders.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }

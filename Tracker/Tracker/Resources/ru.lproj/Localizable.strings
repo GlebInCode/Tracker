@@ -13,6 +13,7 @@
 "main.search" = "Поиск";
 "main.statictics" = "Статистика";
 "main.placeholder" = "Что будем отслеживать?";
+"main.noSearch" = "Ничего не найдено";
 
 "creatingTracker.title" = "Создание трекера";
 "creatingTracker.habit" = "Привычка";

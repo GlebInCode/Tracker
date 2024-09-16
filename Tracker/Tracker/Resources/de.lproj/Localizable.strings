@@ -13,6 +13,7 @@
 "main.search" = "Suchen";
 "main.statictics" = "Statistiken";
 "main.placeholder" = "Was verfolgen wir?";
+"main.noSearch" = "Keine Ergebnisse gefunden";
 
 "creatingTracker.title" = "Tracker erstellen";
 "creatingTracker.habit" = "Gewohnheit";

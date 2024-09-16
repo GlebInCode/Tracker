@@ -13,6 +13,7 @@
 "main.search" = "بحث";
 "main.statictics" = "إحصائيات";
 "main.placeholder" = "ما الذي نتابعه؟";
+"main.noSearch" = "لم يتم العثور على أي شيء";
 
 "creatingTracker.title" = "إنشاء متابع";
 "creatingTracker.habit" = "عادة";
