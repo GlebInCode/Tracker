@@ -17,6 +17,8 @@ extension UIColor {
     static var ypWhite: UIColor { UIColor(named: "White") ?? UIColor.darkGray }
     
     static var ypTabBarGray: UIColor { UIColor(named: "TabBarGray") ?? UIColor.darkGray }
+    static var ypSearchBackground: UIColor { UIColor(named: "SearchBackground") ?? UIColor.darkGray }
+    
     
 }
 

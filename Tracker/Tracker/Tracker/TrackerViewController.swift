@@ -29,6 +29,8 @@ final class TrackerViewController: UIViewController {
     private var targetSelectedDate: DateComponents?
     private var selectDayWeek: DayOfWeek?
     private var targetDayTrackers: [TrackerCategory] = []
+    private var filterSerchText: String?
+    private var filterSerchDayTrackers: [TrackerCategory] = []
     private var cellIsEnabled = true
     
     // MARK: - UI Components
@@ -63,26 +65,19 @@ final class TrackerViewController: UIViewController {
         return lable
     }()
     
-    private lazy var serchLine: UITextField = {
-        let textField = UITextField()
-        textField.textColor = UIColor(named: "Gray")
-        textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+    private lazy var serchLine: UISearchTextField = {
+        let searchTextField = UISearchTextField()
+        searchTextField.textColor = UIColor(named: "Gray")
+        searchTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         let emptyStateText = NSLocalizedString("main.search", comment: "Поиск")
-        textField.placeholder = emptyStateText
-        textField.backgroundColor = .ypBackground
-        textField.layer.cornerRadius = 9
-        textField.layer.masksToBounds = true
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        searchTextField.placeholder = emptyStateText
+        searchTextField.backgroundColor = .ypWhite
+        searchTextField.layer.cornerRadius = 9
+        searchTextField.layer.masksToBounds = true
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+        searchTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
-        
-        let imageView = UIImageView(image: UIImage(named: "MagnifyingGlass"))
-        containerView.addSubview(imageView)
-        imageView.center = containerView.center
-        textField.leftView = containerView
-        textField.leftViewMode = .always
-        
-        return textField
+        return searchTextField
     }()
     
     private lazy var noDataView: NoDataView = {
@@ -156,6 +151,28 @@ final class TrackerViewController: UIViewController {
         collectionView.reloadData()
     }
     
+    @objc func textDidChange(_ searchField: UISearchTextField) {
+        if let searchText = searchField.text, !searchText.isEmpty {
+            filterSerchText = searchText
+            updatefilterSerch()
+        } else {
+            filterSerchDayTrackers = targetDayTrackers
+        }
+        collectionView.reloadData()
+    }
+    
+    private func updatefilterSerch() {
+        guard let filterSerchText else{
+            filterSerchDayTrackers = targetDayTrackers
+            return
+        }
+        filterSerchDayTrackers = targetDayTrackers.compactMap { category in
+            let categoryMatches = category.title.lowercased().contains(filterSerchText.lowercased())
+            let filteredTrackers = category.tracker.filter { $0.name.lowercased().contains(filterSerchText.lowercased()) }
+            return categoryMatches ? category : (filteredTrackers.isEmpty ? nil : TrackerCategory(title: category.title, tracker: filteredTrackers))
+        }
+    }
+    
     private func notifyDataChanged() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(forName: Notification.Name("DataUpdated"), object: nil, queue: nil) { [weak self] notification in
@@ -173,6 +190,7 @@ final class TrackerViewController: UIViewController {
             updateExecutedTrackerIds()
             let category = try store.getCategoriesTracker()
             updateTargetDayTrackers(category)
+            updatefilterSerch()
         } catch {
             print("Данные не доступны")
         }
@@ -323,11 +341,11 @@ final class TrackerViewController: UIViewController {
 
 extension TrackerViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return targetDayTrackers.count
+        return filterSerchDayTrackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return targetDayTrackers[section].tracker.count
+        return filterSerchDayTrackers[section].tracker.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -336,7 +354,7 @@ extension TrackerViewController: UICollectionViewDataSource {
         guard let cell = cell else {
             return UICollectionViewCell()
         }
-        let tracker = targetDayTrackers[indexPath.section].tracker[indexPath.item]
+        let tracker = filterSerchDayTrackers[indexPath.section].tracker[indexPath.item]
         
         cell.delegate = self
         cell.id = tracker.id
@@ -377,7 +395,7 @@ extension TrackerViewController: UICollectionViewDataSource {
         guard let headerView = headerView else {
             return UICollectionReusableView()
         }
-        headerView.textLabel.text = targetDayTrackers[indexPath.section].title
+        headerView.textLabel.text = filterSerchDayTrackers[indexPath.section].title
         return headerView
     }
 }
