@@ -47,6 +47,7 @@
 		F7D0C71E2C5922B200262406 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0C71D2C5922B200262406 /* Tracker.swift */; };
 		F7D0C7202C5922BD00262406 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0C71F2C5922BD00262406 /* TrackerCategory.swift */; };
 		F7D0C7222C5922C700262406 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0C7212C5922C700262406 /* TrackerRecord.swift */; };
+		F7EDFACB2C989DA8000F7094 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EDFACA2C989DA8000F7094 /* FilterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,7 @@
 		F7D0C71D2C5922B200262406 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		F7D0C71F2C5922BD00262406 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		F7D0C7212C5922C700262406 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
+		F7EDFACA2C989DA8000F7094 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,8 +183,8 @@
 			isa = PBXGroup;
 			children = (
 				F7D0C6D22C526A2900262406 /* TrackerViewController.swift */,
-				F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */,
-				F74DC6BB2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift */,
+				F7EDFACA2C989DA8000F7094 /* FilterViewController.swift */,
+				F7EDFAC92C989D5F000F7094 /* CollectionView */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -256,6 +258,15 @@
 				F7D0C7212C5922C700262406 /* TrackerRecord.swift */,
 			);
 			path = Structures;
+			sourceTree = "<group>";
+		};
+		F7EDFAC92C989D5F000F7094 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				F78AC5452C5CE13000FD78D5 /* TrackerCollectionViewCell.swift */,
+				F74DC6BB2C67BC5300EFBB2A /* TrackerCollectionViewHeader.swift */,
+			);
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,6 +354,7 @@
 				F7D0C6D52C526A5000262406 /* StaticticsViewController.swift in Sources */,
 				F78AC5612C64DA3C00FD78D5 /* NoDataView.swift in Sources */,
 				F732DB8E2C6F865000E7FFFE /* DaysValueTransformer.swift in Sources */,
+				F7EDFACB2C989DA8000F7094 /* FilterViewController.swift in Sources */,
 				F78AC54F2C60FA8F00FD78D5 /* CustomTitle.swift in Sources */,
 				F732DB8C2C6F835C00E7FFFE /* DateModel.xcdatamodeld in Sources */,
 				F732DBA82C7BACA200E7FFFE /* TrackerCategoryStore.swift in Sources */,

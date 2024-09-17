@@ -53,6 +53,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     private lazy var nameLable: UILabel = {
         let lable = UILabel()
         lable.translatesAutoresizingMaskIntoConstraints = false
+        lable.overrideUserInterfaceStyle = .light
         lable.textColor = .ypWhite
         lable.numberOfLines = 2
         lable.baselineAdjustment = .alignBaselines

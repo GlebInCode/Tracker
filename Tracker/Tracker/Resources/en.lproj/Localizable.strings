@@ -14,6 +14,11 @@
 "main.statictics" = "Statistics";
 "main.placeholder" = "What are we tracking?";
 "main.noSearch" = "Nothing found";
+"main.filters" = "Filters";
+"main.filters.all" = "All Trackers";
+"main.filters.today" = "Today's Trackers";
+"main.filters.completed" = "Completed";
+"main.filters.unfinished" = "Unfinished";
 
 "creatingTracker.title" = "Create Tracker";
 "creatingTracker.habit" = "Habit";

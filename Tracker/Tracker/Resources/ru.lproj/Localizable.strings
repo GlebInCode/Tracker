@@ -14,6 +14,11 @@
 "main.statictics" = "Статистика";
 "main.placeholder" = "Что будем отслеживать?";
 "main.noSearch" = "Ничего не найдено";
+"main.filters" = "Фильтры";
+"main.filters.all" = "Все трекеры";
+"main.filters.today" = "Трекеры на сегодня";
+"main.filters.completed" = "Завершенные";
+"main.filters.unfinished" = "Не завершенные";
 
 "creatingTracker.title" = "Создание трекера";
 "creatingTracker.habit" = "Привычка";

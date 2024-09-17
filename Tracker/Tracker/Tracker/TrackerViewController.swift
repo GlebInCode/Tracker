@@ -8,9 +8,15 @@
 import UIKit
 import CoreData
 
+enum Filter {
+    case all
+    case today
+    case completed
+    case unfinished
+}
+
 final class TrackerViewController: UIViewController {
     
-    // MARK: - IBOutlets
     // MARK: - Public Properties
     
     var completedTrackers: [TrackerRecord] = []
@@ -32,6 +38,8 @@ final class TrackerViewController: UIViewController {
     private var filterSerchText: String?
     private var filterSerchDayTrackers: [TrackerCategory] = []
     private var cellIsEnabled = true
+    private var selectedFilter: Filter = .all
+    private var filterTrackers: [TrackerCategory] = []
     
     // MARK: - UI Components
     
@@ -98,6 +106,23 @@ final class TrackerViewController: UIViewController {
         return view
     }()
     
+    private lazy var filterButton: UIButton = {
+        let button = UIButton()
+        button.overrideUserInterfaceStyle = .light
+        button.translatesAutoresizingMaskIntoConstraints = false
+        let emptyStateText = NSLocalizedString("main.filters", comment: "Фильтры")
+        button.setTitle(emptyStateText, for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        button.sizeToFit()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        button.titleLabel?.textColor = .ypWhite
+        button.backgroundColor = .ypBlue
+        button.layer.cornerRadius = 16
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(openFilterMenu), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -115,7 +140,6 @@ final class TrackerViewController: UIViewController {
         return collectionView
     }()
     
-    // MARK: - Initializers
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -158,6 +182,9 @@ final class TrackerViewController: UIViewController {
         updateCellIsEnabled()
         showContentOrPlaceholder()
         collectionView.reloadData()
+        if selectedFilter == .today {
+            selectedFilter = .all
+        }
     }
     
     @objc func textDidChange(_ searchField: UISearchTextField) {
@@ -170,6 +197,13 @@ final class TrackerViewController: UIViewController {
         }
         showContentOrPlaceholder()
         collectionView.reloadData()
+    }
+    
+    @objc func openFilterMenu() {
+        let filterVC = FilterViewController()
+        filterVC.delegate = self
+        filterVC.selectedFilter = selectedFilter
+        self.present(filterVC, animated: true, completion: nil)
     }
     
     private func updatefilterSerch() {
@@ -202,6 +236,7 @@ final class TrackerViewController: UIViewController {
             let category = try store.getCategoriesTracker()
             updateTargetDayTrackers(category)
             updatefilterSerch()
+            updateSelectFilter()
         } catch {
             print("Данные не доступны")
         }
@@ -215,16 +250,27 @@ final class TrackerViewController: UIViewController {
     private func showContentOrPlaceholder() {
         if targetDayTrackers.count > 0 {
             if filterSerchDayTrackers.count > 0 {
-                layoutCollection()
-                
-                noSearchView.removeFromSuperview()
-                noDataView.removeFromSuperview()
+                if filterTrackers.count > 0 {
+                    layoutCollection()
+                    layoutFilter()
+                    colorFilterButton()
+                    
+                    noSearchView.removeFromSuperview()
+                    noDataView.removeFromSuperview()
+                } else {
+                    filterButton.removeFromSuperview()
+                    layoutFilter()
+                    colorFilterButton()
+                    loadDefaultImage(noSearchView)
+                }
             } else {
                 
+                filterButton.removeFromSuperview()
                 noDataView.removeFromSuperview()
                 loadDefaultImage(noSearchView)
             }
         } else {
+            filterButton.removeFromSuperview()
             noSearchView.removeFromSuperview()
             loadDefaultImage(noDataView)
             
@@ -305,6 +351,105 @@ final class TrackerViewController: UIViewController {
         }
     }
     
+    private func updateFilter() {
+        switch selectedFilter {
+        case .all:
+            filterTrackers = filterSerchDayTrackers
+            datePickerValueChanged(datePicker)
+        case .today:
+            datePicker.date = Date()
+            datePickerValueChanged(datePicker)
+        case .completed:
+            datePickerValueChanged(datePicker)
+        case .unfinished:
+            datePickerValueChanged(datePicker)
+        }
+    }
+    
+    private func updateSelectFilter() {
+        guard selectedFilter == .completed || selectedFilter == .unfinished else {
+            filterTrackers = filterSerchDayTrackers
+            return
+        }
+        if selectedFilter == .completed {
+            filterCompleted()
+        } else if selectedFilter == .unfinished {
+            filterUnfinished()
+        }
+    }
+    
+    private func filterCompleted() {
+        filterTrackers = []
+
+        for category in filterSerchDayTrackers {
+            var treckers: [Tracker] = []
+
+            for tracker in category.tracker {
+                if executedTrackerIds.contains(tracker.id){
+                    guard let index = completedTrackers.firstIndex(where: { $0.idTracker == tracker.id }) else {
+                        continue
+                    }
+                    for date in completedTrackers[index].date {
+                        let dateCompleted = Calendar.current.dateComponents([.day, .month, .year], from: date)
+                        if targetSelectedDate == dateCompleted {
+                            treckers.append(tracker)
+                            break
+                        }
+                    }
+                }
+            }
+
+            if !treckers.isEmpty {
+                filterTrackers.append(TrackerCategory(title: category.title, tracker: treckers))
+            }
+        }
+    }
+    
+    private func filterUnfinished() {
+        filterTrackers = []
+
+        for category in filterSerchDayTrackers {
+            var treckers: [Tracker] = []
+
+            for tracker in category.tracker {
+                if executedTrackerIds.contains(tracker.id){
+                    guard let index = completedTrackers.firstIndex(where: { $0.idTracker == tracker.id }) else {
+                        continue
+                    }
+                    var status = false
+                    for date in completedTrackers[index].date {
+                        let dateCompleted = Calendar.current.dateComponents([.day, .month, .year], from: date)
+                        if targetSelectedDate == dateCompleted {
+                            status = true
+                            break
+                        }
+                    }
+                    if !status {
+                        treckers.append(tracker)
+                    }
+                } else {
+                    treckers.append(tracker)
+                }
+            }
+            if !treckers.isEmpty {
+                filterTrackers.append(TrackerCategory(title: category.title, tracker: treckers))
+            }
+        }
+    }
+    
+    func colorFilterButton() {
+        switch selectedFilter {
+        case .all:
+            filterButton.backgroundColor = .ypBlue
+        case .today:
+            filterButton.backgroundColor = .ypRed
+        case .completed:
+            filterButton.backgroundColor = .ypRed
+        case .unfinished:
+            filterButton.backgroundColor = .ypRed
+        }
+    }
+    
     // MARK: - View Layout
     
     private func setupConstraints() {
@@ -337,10 +482,22 @@ final class TrackerViewController: UIViewController {
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
+            
             collectionView.topAnchor.constraint(equalTo: serchLine.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    private func layoutFilter() {
+        view.addSubview(filterButton)
+        
+        NSLayoutConstraint.activate([
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filterButton.heightAnchor.constraint(equalToConstant: 60),
+            
         ])
     }
     
@@ -360,11 +517,11 @@ final class TrackerViewController: UIViewController {
 
 extension TrackerViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return filterSerchDayTrackers.count
+        return filterTrackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filterSerchDayTrackers[section].tracker.count
+        return filterTrackers[section].tracker.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -373,7 +530,7 @@ extension TrackerViewController: UICollectionViewDataSource {
         guard let cell = cell else {
             return UICollectionViewCell()
         }
-        let tracker = filterSerchDayTrackers[indexPath.section].tracker[indexPath.item]
+        let tracker = filterTrackers[indexPath.section].tracker[indexPath.item]
         
         cell.delegate = self
         cell.id = tracker.id
@@ -414,7 +571,7 @@ extension TrackerViewController: UICollectionViewDataSource {
         guard let headerView = headerView else {
             return UICollectionReusableView()
         }
-        headerView.textLabel.text = filterSerchDayTrackers[indexPath.section].title
+        headerView.textLabel.text = filterTrackers[indexPath.section].title
         return headerView
     }
 }
@@ -447,5 +604,14 @@ extension TrackerViewController: TrackerCellDelegate {
         }
         trackerRecordStore.addNewTrackerRecord(trackerId: id, date: selectedDate)
         udateDate()
+    }
+}
+
+// MARK: - Extension: FilterViewControllerDelegate
+
+extension TrackerViewController: FilterViewControllerDelegate {
+    func updateFilter(_ selectFilter: Filter) {
+        selectedFilter = selectFilter
+        updateFilter()
     }
 }
