@@ -535,8 +535,6 @@ extension TrackerViewController: UICollectionViewDataSource {
         
         cell.delegate = self
         cell.delegateContextMenu = self
-//        cell.id = tracker.id
-//        cell.status = false
         var day = 0
         var status = false
         
@@ -664,11 +662,17 @@ extension TrackerViewController: ContextMenuDelegate {
     }
     
     private func showActionSheet(_ trackerId: UUID) {
-        let actionSheet = UIAlertController(title: "Уверены что хотите удалить трекер?", message: nil, preferredStyle: .actionSheet)
-        let firstButton = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+        
+        let emptyStateTextTitle = NSLocalizedString("main.alert.title", comment: "Уверены что хотите удалить трекер?")
+        let actionSheet = UIAlertController(title: emptyStateTextTitle, message: nil, preferredStyle: .actionSheet)
+        
+        let emptyStateTextDelete = NSLocalizedString("main.alert.delete", comment: "Удалить")
+        let firstButton = UIAlertAction(title: emptyStateTextDelete, style: .destructive) { _ in
             self.deleteTracker(trackerId)
         }
-        let cancelButton = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        let emptyStateTextCancel = NSLocalizedString("main.alert.cancel", comment: "Отмена")
+        let cancelButton = UIAlertAction(title: emptyStateTextCancel, style: .cancel)
         
         actionSheet.addAction(firstButton)
         actionSheet.addAction(cancelButton)

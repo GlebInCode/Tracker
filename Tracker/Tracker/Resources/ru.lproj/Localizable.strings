@@ -5,6 +5,8 @@
   Created by Глеб Хамин on 11.09.2024.
   
 */
+"store.isPinned" = "Закрепленные";
+
 "onboarding.title1" = "Отслеживайте только то, что хотите";
 "onboarding.title2" = "Даже если это не литры воды и йога";
 "onboarding.button" = "Вот это технологии!";
@@ -19,6 +21,13 @@
 "main.filters.today" = "Трекеры на сегодня";
 "main.filters.completed" = "Завершенные";
 "main.filters.unfinished" = "Не завершенные";
+"main.alert.title" = "Уверены что хотите удалить трекер?";
+"main.alert.delete" = "Удалить";
+"main.alert.cancel" = "Отмена";
+
+"main.cell.isNotPinned" = "Открепить";
+"main.cell.isPinned" = "Закрепить";
+"main.cell.edit" = "Редактировать";
 
 "creatingTracker.title" = "Создание трекера";
 "creatingTracker.habit" = "Привычка";
@@ -32,7 +41,8 @@
 "settingTracker.emojiTracker" = "Emoji";
 "settingTracker.colorTracker" = "Цвет";
 "settingTracker.buttonCancel" = "Отменить";
-"settingTracker.buttonCreate" = "Создать";
+"settingTracker.buttonCreate.create" = "Создать";
+"settingTracker.buttonCreate.save" = "Сохранить";
 "settingTracker.nameCountLimitation" = "Ограничение 38 символов";
 
 "settingTracker.sheduleTracker.everyDay" = "Каждый день";

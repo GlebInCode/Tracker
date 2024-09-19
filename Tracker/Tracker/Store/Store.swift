@@ -58,7 +58,7 @@ final class Store {
                 }
             }
             if isPinnedTrackers.count > 0 {
-                let emptyStateText = NSLocalizedString("Закрепленные", comment: "Закрепленные")
+                let emptyStateText = NSLocalizedString("store.isPinned", comment: "Закрепленные")
                 var categoryIsPinned = TrackerCategory(title: emptyStateText, tracker: isPinnedTrackers)
                 categories.insert(categoryIsPinned, at: 0)
             }

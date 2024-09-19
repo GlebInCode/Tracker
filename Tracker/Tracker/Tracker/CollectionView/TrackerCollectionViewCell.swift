@@ -237,9 +237,9 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
             
             var emptyStateText = ""
             if self.isPinned {
-                emptyStateText = NSLocalizedString("main.Открепить", comment: "Открепить")
+                emptyStateText = NSLocalizedString("main.cell.isNotPinned", comment: "Открепить")
             } else {
-                emptyStateText = NSLocalizedString("main.Закрепить", comment: "Закрепить")
+                emptyStateText = NSLocalizedString("main.cell.isPinned", comment: "Закрепить")
             }
             let secure = UIAction(title: emptyStateText) { _ in
                 guard let id = self.id, let delegate = self.delegateContextMenu else {
@@ -247,13 +247,17 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
                 }
                 delegate.contextMenuSecure(id)
             }
-            let edit = UIAction(title: "Редактировать") { _ in
+            
+            let emptyStateTextEdit = NSLocalizedString("main.cell.edit", comment: "Редактировать")
+            let edit = UIAction(title: emptyStateTextEdit) { _ in
                 guard let id = self.id, let delegate = self.delegateContextMenu else {
                     return
                 }
                 delegate.contextMenuLeave(id, self.countDays)
             }
-            let delete = UIAction(title: "Удалить", attributes: .destructive) { _ in
+            
+            let emptyStateTextDelete = NSLocalizedString("main.alert.delete", comment: "Удалить")
+            let delete = UIAction(title: emptyStateTextDelete, attributes: .destructive) { _ in
                 guard let id = self.id, let delegate = self.delegateContextMenu else {
                     return
                 }

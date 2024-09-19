@@ -5,6 +5,8 @@
   Created by Глеб Хамин on 11.09.2024.
   
 */
+"store.isPinned" = "Pinned";
+
 "onboarding.title1" = "Track only what you want";
 "onboarding.title2" = "Even if it's not liters of water and yoga";
 "onboarding.button" = "That's technology!";
@@ -19,6 +21,13 @@
 "main.filters.today" = "Today's Trackers";
 "main.filters.completed" = "Completed";
 "main.filters.unfinished" = "Unfinished";
+"main.alert.title" = "Are you sure you want to delete the tracker?";
+"main.alert.delete" = "Delete";
+"main.alert.cancel" = "Cancel";
+
+"main.cell.isNotPinned" = "Unpin";
+"main.cell.isPinned" = "Pin";
+"main.cell.edit" = "Edit";
 
 "creatingTracker.title" = "Create Tracker";
 "creatingTracker.habit" = "Habit";
@@ -32,7 +41,8 @@
 "settingTracker.emojiTracker" = "Emoji";
 "settingTracker.colorTracker" = "Color";
 "settingTracker.buttonCancel" = "Cancel";
-"settingTracker.buttonCreate" = "Create";
+"settingTracker.buttonCreate.create" = "Create";
+"settingTracker.buttonCreate.save" = "Save";
 "settingTracker.nameCountLimitation" = "38 character limit";
 
 "settingTracker.sheduleTracker.everyDay" = "Every Day";

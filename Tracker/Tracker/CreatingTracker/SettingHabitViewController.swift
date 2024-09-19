@@ -105,7 +105,7 @@ final class SettingHabitViewController: UIViewController {
     private lazy var createButton: CustomBlakButton = {
         let button = CustomBlakButton()
         button.isEnabled = false
-        let emptyStateText = trackerType == .event || trackerType == .habit ? NSLocalizedString("settingTracker.buttonCreate", comment: "Создать") : NSLocalizedString("settingTracker.сохранить", comment: "Сохранить")
+        let emptyStateText = trackerType == .event || trackerType == .habit ? NSLocalizedString("settingTracker.buttonCreate.create", comment: "Создать") : NSLocalizedString("settingTracker.buttonCreate.save", comment: "Сохранить")
         button.setTitle(emptyStateText, for: .normal)
         button.addTarget(self, action: #selector(create), for: .touchUpInside)
         return button

@@ -5,6 +5,8 @@
   Created by Глеб Хамин on 11.09.2024.
   
 */
+"store.isPinned" = "مثبت";
+
 "onboarding.title1" = "تتبع فقط ما تريد";
 "onboarding.title2" = "حتى لو لم يكن لترات الماء ويوجا";
 "onboarding.button" = "هذه التكنولوجيا!";
@@ -19,6 +21,13 @@
 "main.filters.today" = "متابعي اليوم";
 "main.filters.completed" = "مكتمل";
 "main.filters.unfinished" = "غير مكتمل";
+"main.alert.title" = "هل أنت متأكد من رغبتك في حذف المُتَتَبِّع؟";
+"main.alert.delete" = "حذف";
+"main.alert.cancel" = "إلغاء";
+
+"main.cell.isNotPinned" = "فك التثبيت";
+"main.cell.isPinned" = "تثبيت";
+"main.cell.edit" = "تحرير";
 
 "creatingTracker.title" = "إنشاء متابع";
 "creatingTracker.habit" = "عادة";
@@ -32,7 +41,8 @@
 "settingTracker.emojiTracker" = "إيموجي";
 "settingTracker.colorTracker" = "لون";
 "settingTracker.buttonCancel" = "إلغاء";
-"settingTracker.buttonCreate" = "إنشاء";
+"settingTracker.buttonCreate.create" = "إنشاء";
+"settingTracker.buttonCreate.save" = "حفظ";
 "settingTracker.nameCountLimitation" = "حد 38 حرف";
 
 "settingTracker.sheduleTracker.everyDay" = "كل يوم";
