@@ -31,6 +31,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     var color: UIColor = .ypBlack
     var id: UUID?
     var status: Bool = false
+    var isPinned: Bool = false
     
     weak var delegateContextMenu: ContextMenuDelegate?
     
@@ -72,6 +73,15 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         lable.baselineAdjustment = .alignBaselines
         lable.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return lable
+    }()
+    
+    private lazy var isPinnedImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "pin.fill")
+        imageView.tintColor = .ypWhite
+        imageView.overrideUserInterfaceStyle = .light
+        return imageView
     }()
     
     private lazy var counterLable: UILabel = {
@@ -147,13 +157,16 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         namedTrackerView.becomeFirstResponder()
     }
     
-    func configCell(name: String, color: UIColor, emoji: String, executionStatus: Bool, day: Int, cellStatus: Bool) {
+    func configCell(id: UUID, name: String, color: UIColor, emoji: String, executionStatus: Bool, day: Int, cellStatus: Bool, isPinned: Bool) {
+        self.id = id
         nameLable.text = name
         namedTrackerView.backgroundColor = color
         smail.text = emoji
         status = executionStatus
         addButtonCell.backgroundColor = color
         addButtonCell.isEnabled = cellStatus
+        self.isPinned = isPinned
+        isPinnedImage.isHidden = !isPinned
         updateCountDays(day: day)
         apdateMark()
     }
@@ -181,6 +194,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(namedTrackerView)
         namedTrackerView.addSubview(smail)
         namedTrackerView.addSubview(nameLable)
+        namedTrackerView.addSubview(isPinnedImage)
         contentView.addSubview(stackCounterTracker)
         
         NSLayoutConstraint.activate([
@@ -193,6 +207,11 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             smail.topAnchor.constraint(equalTo: namedTrackerView.topAnchor, constant: 12),
             smail.heightAnchor.constraint(equalToConstant: 24),
             smail.widthAnchor.constraint(equalToConstant: 24),
+            
+            isPinnedImage.trailingAnchor.constraint(equalTo: namedTrackerView.trailingAnchor, constant: -12),
+            isPinnedImage.topAnchor.constraint(equalTo: namedTrackerView.topAnchor, constant: 18),
+            isPinnedImage.heightAnchor.constraint(equalToConstant: 12),
+            isPinnedImage.widthAnchor.constraint(equalToConstant: 12),
             
             nameLable.leadingAnchor.constraint(equalTo: namedTrackerView.leadingAnchor, constant: 12),
             nameLable.topAnchor.constraint(equalTo: namedTrackerView.topAnchor, constant: 44),
@@ -216,8 +235,17 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
         
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             
-            let secure = UIAction(title: "Закрепить") { _ in
-                print("Закрепить")
+            var emptyStateText = ""
+            if self.isPinned {
+                emptyStateText = NSLocalizedString("main.Открепить", comment: "Открепить")
+            } else {
+                emptyStateText = NSLocalizedString("main.Закрепить", comment: "Закрепить")
+            }
+            let secure = UIAction(title: emptyStateText) { _ in
+                guard let id = self.id, let delegate = self.delegateContextMenu else {
+                    return
+                }
+                delegate.contextMenuSecure(id)
             }
             let edit = UIAction(title: "Редактировать") { _ in
                 guard let id = self.id, let delegate = self.delegateContextMenu else {

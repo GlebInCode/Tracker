@@ -535,8 +535,8 @@ extension TrackerViewController: UICollectionViewDataSource {
         
         cell.delegate = self
         cell.delegateContextMenu = self
-        cell.id = tracker.id
-        cell.status = false
+//        cell.id = tracker.id
+//        cell.status = false
         var day = 0
         var status = false
         
@@ -555,7 +555,7 @@ extension TrackerViewController: UICollectionViewDataSource {
             }
         }
         
-        cell.configCell(name: tracker.name, color: tracker.color, emoji: tracker.emoji, executionStatus: status, day: day, cellStatus: cellIsEnabled)
+        cell.configCell(id: tracker.id, name: tracker.name, color: tracker.color, emoji: tracker.emoji, executionStatus: status, day: day, cellStatus: cellIsEnabled, isPinned: tracker.isPinned)
         
         return cell
     }
@@ -623,7 +623,9 @@ extension TrackerViewController: FilterViewControllerDelegate {
 
 extension TrackerViewController: ContextMenuDelegate {
     func contextMenuSecure(_ trackerId: UUID) {
-        
+        trackerStore.secureTracker(trackerId)
+        udateDate()
+        collectionView.reloadData()
     }
     
     func contextMenuUnpin(_ trackerId: UUID) {
@@ -657,7 +659,7 @@ extension TrackerViewController: ContextMenuDelegate {
             return
         }
         
-        settingHabitViewController.settingTracker(selectedTracker.id, selectedTracker.name, selectedTracker.color, selectedTracker.emoji, selectedTracker.schedule, countDay)
+        settingHabitViewController.settingTracker(selectedTracker.id, selectedTracker.name, selectedTracker.color, selectedTracker.emoji, selectedTracker.schedule, countDay, selectedTracker.isPinned)
         self.present(settingHabitViewController, animated: true, completion: nil)
     }
     

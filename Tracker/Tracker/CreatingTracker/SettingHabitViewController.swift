@@ -61,6 +61,7 @@ final class SettingHabitViewController: UIViewController {
     private let emojiCellIdentifier = "EmojiCell"
     private let colorCellIdentifier = "ColorCell"
     private var numberOfDay: Int?
+    private var isPinned = false
     
     // MARK: - UI Components
 
@@ -205,7 +206,7 @@ final class SettingHabitViewController: UIViewController {
     
     // MARK: - Public Methods
     
-    func settingTracker(_ id: UUID, _ name: String, _ color: UIColor, _ emoji: String, _ schedule: [DayOfWeek], _ record: Int) {
+    func settingTracker(_ id: UUID, _ name: String, _ color: UIColor, _ emoji: String, _ schedule: [DayOfWeek], _ record: Int, _ isPinned: Bool) {
         guard let color = color.hex else {
             return
         }
@@ -216,6 +217,7 @@ final class SettingHabitViewController: UIViewController {
         textFieldNameTracker.text = nameTracker
         selectColor = colors.firstIndex(of: color.uppercased())
         selectEmoji = emojies.firstIndex(of: emoji)
+        self.isPinned = isPinned
         for day in schedule {
             daySelections[day] = true
         }
@@ -255,7 +257,8 @@ final class SettingHabitViewController: UIViewController {
         let color = colorUI
         let emoji = emojies[selectEmoji]
         let schedule = sreateSchedule()
-        tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+        let isPinned = isPinned
+        tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule, isPinned: isPinned)
         guard let tracker else { return }
         if trackerType == .event || trackerType == .habit {
             trackerStore.addNewTracker(tracker, nameCategory)
