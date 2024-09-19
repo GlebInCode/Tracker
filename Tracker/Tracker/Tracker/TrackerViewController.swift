@@ -128,6 +128,7 @@ final class TrackerViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .none
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 13)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -485,8 +486,8 @@ final class TrackerViewController: UIViewController {
             
             collectionView.topAnchor.constraint(equalTo: serchLine.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
@@ -533,6 +534,7 @@ extension TrackerViewController: UICollectionViewDataSource {
         let tracker = filterTrackers[indexPath.section].tracker[indexPath.item]
         
         cell.delegate = self
+        cell.delegateContextMenu = self
         cell.id = tracker.id
         cell.status = false
         var day = 0
@@ -559,11 +561,11 @@ extension TrackerViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width - 10) / 2
-        return CGSize(width: width, height: 148)
+        let width = (collectionView.bounds.width - 26) / 2
+        return CGSize(width: width, height: 152)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -578,7 +580,8 @@ extension TrackerViewController: UICollectionViewDataSource {
 
 // MARK: - Extension: UICollectionViewDelegateFlowLayout
 
-extension TrackerViewController: UICollectionViewDelegateFlowLayout {}
+extension TrackerViewController: UICollectionViewDelegateFlowLayout {
+}
 
 // MARK: - Extension: TrackerCellDelegate
 
@@ -614,4 +617,70 @@ extension TrackerViewController: FilterViewControllerDelegate {
         selectedFilter = selectFilter
         updateFilter()
     }
+}
+
+// MARK: - Extension: ContextMenuDelegate
+
+extension TrackerViewController: ContextMenuDelegate {
+    func contextMenuSecure(_ trackerId: UUID) {
+        
+    }
+    
+    func contextMenuUnpin(_ trackerId: UUID) {
+        
+    }
+    
+    func contextMenuLeave(_ trackerId: UUID, _ countDay: Int) {
+        leaveTracker(trackerId, countDay)
+    }
+    
+    func contextMenuDelete(_ trackerId: UUID) {
+        showActionSheet(trackerId)
+    }
+    
+    private func leaveTracker(_ trackerId: UUID, _ countDay: Int) {
+        let settingHabitViewController = SettingHabitViewController()
+        var selectedTracker: Tracker?
+
+        for category in filterTrackers {
+            for tracker in category.tracker {
+                if tracker.id == trackerId {
+                    selectedTracker = tracker
+                    break
+                }
+            }
+            if selectedTracker != nil {
+                break
+            }
+        }
+        guard let selectedTracker else {
+            return
+        }
+        
+        settingHabitViewController.settingTracker(selectedTracker.id, selectedTracker.name, selectedTracker.color, selectedTracker.emoji, selectedTracker.schedule, countDay)
+        self.present(settingHabitViewController, animated: true, completion: nil)
+    }
+    
+    private func showActionSheet(_ trackerId: UUID) {
+        let actionSheet = UIAlertController(title: "Уверены что хотите удалить трекер?", message: nil, preferredStyle: .actionSheet)
+        let firstButton = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+            self.deleteTracker(trackerId)
+        }
+        let cancelButton = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        actionSheet.addAction(firstButton)
+        actionSheet.addAction(cancelButton)
+        
+        present(actionSheet, animated: true)
+    }
+    
+    private func deleteTracker(_ trackerId: UUID) {
+        trackerRecordStore.deleteTrackerRecord(trackerId)
+        trackerStore.deleteTracker(trackerId)
+        udateDate()
+        updateCellIsEnabled()
+        showContentOrPlaceholder()
+        collectionView.reloadData()
+    }
+    
 }

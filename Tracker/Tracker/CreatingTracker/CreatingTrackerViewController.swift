@@ -12,6 +12,8 @@ import UIKit
 enum TrackerType {
     case habit
     case event
+    case habitEdit
+    case eventEdit
 }
 
 final class CreatingTrackerViewController: UIViewController {

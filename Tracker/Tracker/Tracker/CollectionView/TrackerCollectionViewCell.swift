@@ -8,6 +8,15 @@
 import Foundation
 import UIKit
 
+// MARK: - ContextMenuDelegate
+
+protocol ContextMenuDelegate: AnyObject {
+    func contextMenuSecure(_ trackerId: UUID)
+    func contextMenuUnpin(_ trackerId: UUID)
+    func contextMenuLeave(_ trackerId: UUID, _ countDay: Int)
+    func contextMenuDelete(_ trackerId: UUID)
+}
+
 // MARK: - Protocol: TrackerCellDelegate
 
 protocol TrackerCellDelegate {
@@ -23,18 +32,22 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     var id: UUID?
     var status: Bool = false
     
+    weak var delegateContextMenu: ContextMenuDelegate?
+    
     // MARK: - Private Properties
 
     private var countDays: Int = 0
+    
     
     // MARK: - UI Components
     
     private lazy var namedTrackerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 16
+        view.layer.cornerRadius = 14
         view.layer.masksToBounds = true
         view.backgroundColor = color
+        view.clipsToBounds = true
         return view
     }()
     
@@ -94,7 +107,15 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        let interaction = UIContextMenuInteraction(delegate: self)
+        namedTrackerView.addInteraction(interaction)
+        
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(presentContextMenu))
+        namedTrackerView.addGestureRecognizer(longPressGestureRecognizer)
+        
         backgroundColor = .none
+        layer.cornerRadius = 14
+        layer.masksToBounds = true
         setupConstraints()
     }
     
@@ -121,6 +142,10 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Public Methods
+    
+    @objc func presentContextMenu() {
+        namedTrackerView.becomeFirstResponder()
+    }
     
     func configCell(name: String, color: UIColor, emoji: String, executionStatus: Bool, day: Int, cellStatus: Bool) {
         nameLable.text = name
@@ -159,10 +184,9 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(stackCounterTracker)
         
         NSLayoutConstraint.activate([
-            namedTrackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            namedTrackerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            namedTrackerView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            namedTrackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            namedTrackerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 6),
+            namedTrackerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            namedTrackerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
             namedTrackerView.heightAnchor.constraint(equalToConstant: 90),
             
             smail.leadingAnchor.constraint(equalTo: namedTrackerView.leadingAnchor, constant: 12),
@@ -175,13 +199,43 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             nameLable.trailingAnchor.constraint(equalTo: namedTrackerView.trailingAnchor, constant: -12),
             nameLable.bottomAnchor.constraint(equalTo: namedTrackerView.bottomAnchor, constant: -12),
             
-            stackCounterTracker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            stackCounterTracker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 18),
             stackCounterTracker.topAnchor.constraint(equalTo: namedTrackerView.bottomAnchor, constant: 8),
-            stackCounterTracker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            stackCounterTracker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18),
             stackCounterTracker.heightAnchor.constraint(equalToConstant: 34),
             
             addButtonCell.heightAnchor.constraint(equalToConstant: 34),
             addButtonCell.widthAnchor.constraint(equalToConstant: 34)
         ])
+    }
+}
+
+extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            
+            let secure = UIAction(title: "Закрепить") { _ in
+                print("Закрепить")
+            }
+            let edit = UIAction(title: "Редактировать") { _ in
+                guard let id = self.id, let delegate = self.delegateContextMenu else {
+                    return
+                }
+                delegate.contextMenuLeave(id, self.countDays)
+            }
+            let delete = UIAction(title: "Удалить", attributes: .destructive) { _ in
+                guard let id = self.id, let delegate = self.delegateContextMenu else {
+                    return
+                }
+                delegate.contextMenuDelete(id)
+            }
+            
+            let menu = UIMenu(children: [secure, edit, delete])
+            return menu
+        }
+        
+        return configuration
     }
 }

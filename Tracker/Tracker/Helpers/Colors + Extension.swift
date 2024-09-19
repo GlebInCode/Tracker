@@ -55,3 +55,25 @@ extension UIColor {
         self.init(red: r, green: g, blue: b, alpha: a)
     }
 }
+
+extension UIColor {
+    var hex: String? {
+        guard let components = cgColor.components, components.count >= 3 else { return nil }
+        
+        let r = components[0]
+        let g = components[1]
+        let b = components[2]
+        let a = components.count == 4 ? components[3] : 1.0
+        
+        let hexR = String(format: "%02x", Int(r * 255))
+        let hexG = String(format: "%02x", Int(g * 255))
+        let hexB = String(format: "%02x", Int(b * 255))
+        let hexA = String(format: "%02x", Int(a * 255))
+        
+        if a == 1.0 {
+            return "#\(hexR)\(hexG)\(hexB)"
+        } else {
+            return "#\(hexR)\(hexG)\(hexB)\(hexA)"
+        }
+    }
+}

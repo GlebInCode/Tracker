@@ -18,6 +18,7 @@ final class SettingHabitViewController: UIViewController {
     // MARK: - Private Properties
 
     private let trackerStore = TrackerStore()
+    private var trackerId: UUID?
     private var tracker: Tracker?
     private var cellsTable: [String] = []
     private var newCategory: TrackerCategory?
@@ -59,6 +60,7 @@ final class SettingHabitViewController: UIViewController {
     private var selectColor: Int?
     private let emojiCellIdentifier = "EmojiCell"
     private let colorCellIdentifier = "ColorCell"
+    private var numberOfDay: Int?
     
     // MARK: - UI Components
 
@@ -72,15 +74,37 @@ final class SettingHabitViewController: UIViewController {
             case .event:
                 let emptyStateText = NSLocalizedString("settingTracker.titleEvent", comment: "Новое нерегулярное событие")
                 lable.text = emptyStateText
+            case .habitEdit:
+                let emptyStateText = NSLocalizedString("settingTracker.привычки", comment: "Редактирование привычки")
+                lable.text = emptyStateText
+            case .eventEdit:
+                let emptyStateText = NSLocalizedString("settingTracker.события", comment: "Редактирование события")
+                lable.text = emptyStateText
             }
         }
         return lable
     }()
     
+    private lazy var numberOfDayLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .ypBlack
+        label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        guard let numberOfDay else {
+            return label
+        }
+        let tasksString = String.localizedStringWithFormat(
+            NSLocalizedString("numberOfTasks", comment: "Number of remaining tasks"),
+            numberOfDay
+        )
+        label.text = tasksString
+        return label
+    }()
+    
     private lazy var createButton: CustomBlakButton = {
         let button = CustomBlakButton()
         button.isEnabled = false
-        let emptyStateText = NSLocalizedString("settingTracker.buttonCreate", comment: "Создать")
+        let emptyStateText = trackerType == .event || trackerType == .habit ? NSLocalizedString("settingTracker.buttonCreate", comment: "Создать") : NSLocalizedString("settingTracker.сохранить", comment: "Сохранить")
         button.setTitle(emptyStateText, for: .normal)
         button.addTarget(self, action: #selector(create), for: .touchUpInside)
         return button
@@ -119,7 +143,7 @@ final class SettingHabitViewController: UIViewController {
     
     private lazy var settingScrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let height: CGFloat = 99 + CGFloat(75 * cellsTable.count) + calculateCellSize()
+        let height: CGFloat = 99 + CGFloat(75 * cellsTable.count) + calculateCellSize() + topAnchorTextFieldNameTracker()
         scrollView.contentSize = CGSize(width: view.frame.width - 34, height: height)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -151,6 +175,9 @@ final class SettingHabitViewController: UIViewController {
         defineCellsTable()
         setupTable()
         setupLayout()
+        if numberOfDay != nil {
+            numberOfDayLayout()
+        }
     }
     
     deinit {
@@ -176,6 +203,31 @@ final class SettingHabitViewController: UIViewController {
         }
     }
     
+    // MARK: - Public Methods
+    
+    func settingTracker(_ id: UUID, _ name: String, _ color: UIColor, _ emoji: String, _ schedule: [DayOfWeek], _ record: Int) {
+        guard let color = color.hex else {
+            return
+        }
+        trackerId = id
+        nameCategory = trackerStore.getCategoryForTracker(id)
+        nameTracker = name
+        numberOfDay = record
+        textFieldNameTracker.text = nameTracker
+        selectColor = colors.firstIndex(of: color.uppercased())
+        selectEmoji = emojies.firstIndex(of: emoji)
+        for day in schedule {
+            daySelections[day] = true
+        }
+        self.schedule = formatDaysOfWeek()
+        if daySelections.contains(where: {$0.value}) {
+            trackerType = .habitEdit
+            
+            return
+        }
+        trackerType = .eventEdit
+    }
+    
     // MARK: - Private Methods
     
     func calculateCellSize() -> CGFloat {
@@ -198,14 +250,18 @@ final class SettingHabitViewController: UIViewController {
     private func createTracker() {
         guard let nameCategory, let selectColor, let selectEmoji else { return }
         guard let colorUI = UIColor(hex: colors[selectColor]) else { return }
-        let id = createId()
+        let id = trackerId ?? createId()
         let name = nameTracker
         let color = colorUI
         let emoji = emojies[selectEmoji]
         let schedule = sreateSchedule()
         tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
         guard let tracker else { return }
-        trackerStore.addNewTracker(tracker, nameCategory)
+        if trackerType == .event || trackerType == .habit {
+            trackerStore.addNewTracker(tracker, nameCategory)
+        } else {
+            trackerStore.saveTrackerChanges(tracker, nameCategory)
+        }
     }
     
     private func createId() -> UUID {
@@ -238,6 +294,18 @@ final class SettingHabitViewController: UIViewController {
             } else {
                 createButton.isEnabled = false
             }
+        case .habitEdit:
+            if nameTracker.count > 0, schedule.count > 0, let _ = nameCategory, let _ = selectColor, let _ = selectEmoji {
+                createButton.isEnabled = true
+            } else {
+                createButton.isEnabled = false
+            }
+        case .eventEdit:
+            if nameTracker.count > 0, let _ = nameCategory, let _ = selectColor, let _ = selectEmoji {
+                createButton.isEnabled = true
+            } else {
+                createButton.isEnabled = false
+            }
         case nil:
             return
         }
@@ -250,6 +318,10 @@ final class SettingHabitViewController: UIViewController {
         case .habit:
             return cellsTable = [emptyStateText1, emptyStateText2]
         case .event:
+            return cellsTable = [emptyStateText1]
+        case .habitEdit:
+            return cellsTable = [emptyStateText1, emptyStateText2]
+        case .eventEdit:
             return cellsTable = [emptyStateText1]
         case .none:
             return cellsTable = []
@@ -268,6 +340,8 @@ final class SettingHabitViewController: UIViewController {
         ) else { return }
         nameCategory = title
     }
+    
+//    private func
     
     // MARK: - View Layout
 
@@ -294,7 +368,7 @@ final class SettingHabitViewController: UIViewController {
             settingScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             settingScrollView.bottomAnchor.constraint(equalTo: stackButton.topAnchor, constant: -16),
             
-            textFieldNameTracker.topAnchor.constraint(equalTo: settingScrollView.topAnchor),
+            textFieldNameTracker.topAnchor.constraint(equalTo: settingScrollView.topAnchor, constant: topAnchorTextFieldNameTracker()),
             textFieldNameTracker.widthAnchor.constraint(equalTo: settingScrollView.widthAnchor),
             textFieldNameTracker.heightAnchor.constraint(equalToConstant: 75),
             
@@ -305,6 +379,24 @@ final class SettingHabitViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor),
             collectionView.widthAnchor.constraint(equalTo: settingScrollView.widthAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: calculateCellSize())
+        ])
+    }
+    
+    private func topAnchorTextFieldNameTracker() -> CGFloat {
+        if numberOfDay == nil {
+            return 0
+        } else {
+            return 78
+        }
+    }
+    
+    private func numberOfDayLayout() {
+        settingScrollView.addSubview(numberOfDayLabel)
+
+        NSLayoutConstraint.activate([
+            numberOfDayLabel.topAnchor.constraint(equalTo: settingScrollView.topAnchor),
+            numberOfDayLabel.heightAnchor.constraint(equalToConstant: 38),
+            numberOfDayLabel.centerXAnchor.constraint(equalTo: settingScrollView.centerXAnchor),
         ])
     }
 }
