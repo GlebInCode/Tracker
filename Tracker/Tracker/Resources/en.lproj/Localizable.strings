@@ -39,6 +39,8 @@
 
 "settingTracker.titleHabit" = "New Habit";
 "settingTracker.titleEvent" = "New Irregular Event";
+"settingTracker.titleHabitEdit" = "Editing Habit";
+"settingTracker.titleEventEdit" = "Editing Event";
 "settingTracker.nameTracker" = "Enter tracker name";
 "settingTracker.categoryTracker" = "Category";
 "settingTracker.sheduleTracker" = "Schedule";

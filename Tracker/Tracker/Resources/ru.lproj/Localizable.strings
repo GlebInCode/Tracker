@@ -39,6 +39,8 @@
 
 "settingTracker.titleHabit" = "Новая привычка";
 "settingTracker.titleEvent" = "Новое нерегулярное событие";
+"settingTracker.titleHabitEdit" = "Редактирование привычки";
+"settingTracker.titleEventEdit" = "Редактирование события";
 "settingTracker.nameTracker" = "Введите название трекера";
 "settingTracker.categoryTracker" = "Категория";
 "settingTracker.sheduleTracker" = "Расписание";

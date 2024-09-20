@@ -76,10 +76,10 @@ final class SettingHabitViewController: UIViewController {
                 let emptyStateText = NSLocalizedString("settingTracker.titleEvent", comment: "Новое нерегулярное событие")
                 lable.text = emptyStateText
             case .habitEdit:
-                let emptyStateText = NSLocalizedString("settingTracker.привычки", comment: "Редактирование привычки")
+                let emptyStateText = NSLocalizedString("settingTracker.titleHabitEdit", comment: "Редактирование привычки")
                 lable.text = emptyStateText
             case .eventEdit:
-                let emptyStateText = NSLocalizedString("settingTracker.события", comment: "Редактирование события")
+                let emptyStateText = NSLocalizedString("settingTracker.titleEventEdit", comment: "Редактирование события")
                 lable.text = emptyStateText
             }
         }

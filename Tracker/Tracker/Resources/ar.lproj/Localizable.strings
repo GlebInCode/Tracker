@@ -39,6 +39,8 @@
 
 "settingTracker.titleHabit" = "عادة جديدة";
 "settingTracker.titleEvent" = "حدث غير منتظم جديد";
+"settingTracker.titleHabitEdit" = "تحرير عادة";
+"settingTracker.titleEventEdit" = "تحرير حدث";
 "settingTracker.nameTracker" = "أدخل اسم المتابع";
 "settingTracker.categoryTracker" = "فئة";
 "settingTracker.sheduleTracker" = "جدول";
