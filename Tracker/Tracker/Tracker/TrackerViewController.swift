@@ -65,11 +65,9 @@ final class TrackerViewController: UIViewController {
     }()
     
     private lazy var titleLable: UILabel = {
-        let lable = UILabel()
-        lable.translatesAutoresizingMaskIntoConstraints = false
+        let lable = LargeTitle()
         let emptyStateText = NSLocalizedString("main.trackers", comment: "Трекеры")
         lable.text = emptyStateText
-        lable.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         return lable
     }()
     
@@ -438,7 +436,7 @@ final class TrackerViewController: UIViewController {
         }
     }
     
-    func colorFilterButton() {
+    private func colorFilterButton() {
         switch selectedFilter {
         case .all:
             filterButton.backgroundColor = .ypBlue
@@ -449,6 +447,13 @@ final class TrackerViewController: UIViewController {
         case .unfinished:
             filterButton.backgroundColor = .ypRed
         }
+    }
+    
+    private func updateStatistic() {
+        let count = trackerRecordStore.countEntities()
+        UserDefaults.standard.set(
+            count,
+            forKey: Constants.staticticCompleted)
     }
     
     // MARK: - View Layout
@@ -561,6 +566,7 @@ extension TrackerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.bounds.width - 26) / 2
         return CGSize(width: width, height: 152)
@@ -598,6 +604,7 @@ extension TrackerViewController: TrackerCellDelegate {
                     if selectedDate == dateCompleted {
                         trackerRecordStore.deleteTrackerRecord(trackerId: id, date: dateCompletedDate)
                         udateDate()
+                        updateStatistic()
                         return
                     }
                 }
@@ -605,6 +612,7 @@ extension TrackerViewController: TrackerCellDelegate {
         }
         trackerRecordStore.addNewTrackerRecord(trackerId: id, date: selectedDate)
         udateDate()
+        updateStatistic()
     }
 }
 

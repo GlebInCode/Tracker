@@ -29,6 +29,10 @@
 "main.cell.isPinned" = "Закрепить";
 "main.cell.edit" = "Редактировать";
 
+"statistic.title" = "Статистика";
+"statistic.placeholder" = "Анализировать пока нечего";
+"statistic.completed" = "трекеров завершено";
+
 "creatingTracker.title" = "Создание трекера";
 "creatingTracker.habit" = "Привычка";
 "creatingTracker.event" = "Нерегулярные события";

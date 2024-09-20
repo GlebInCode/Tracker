@@ -29,6 +29,10 @@
 "main.cell.isPinned" = "تثبيت";
 "main.cell.edit" = "تحرير";
 
+"statistic.title" = "الإحصائيات";
+"statistic.placeholder" = "لا يوجد شيء لتحليله بعد";
+"statistic.completed" = "مسارات مكتملة";
+
 "creatingTracker.title" = "إنشاء متابع";
 "creatingTracker.habit" = "عادة";
 "creatingTracker.event" = "أحداث غير منتظمة";

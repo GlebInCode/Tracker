@@ -29,6 +29,10 @@
 "main.cell.isPinned" = "Anheften";
 "main.cell.edit" = "Bearbeiten";
 
+"statistic.title" = "Statistik";
+"statistic.placeholder" = "Noch nichts zu analysieren";
+"statistic.completed" = "Tracks abgeschlossen";
+
 "creatingTracker.title" = "Tracker erstellen";
 "creatingTracker.habit" = "Gewohnheit";
 "creatingTracker.event" = "Unregelmäßige Ereignisse";

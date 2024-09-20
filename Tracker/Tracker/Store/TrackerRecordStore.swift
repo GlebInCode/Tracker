@@ -99,4 +99,16 @@ final class TrackerRecordStore {
                                                     cacheName: nil)
         return controller
     }
+    
+    func countEntities() -> Int {
+        var count = 0
+        let request = NSFetchRequest<TrackerRecordCoreDate>(entityName: "TrackerRecordCoreDate")
+        do {
+            let trackerRecordCoreDate = try context.fetch(request)
+            count = trackerRecordCoreDate.count
+        } catch {
+            return count
+        }
+        return count
+    }
 }
