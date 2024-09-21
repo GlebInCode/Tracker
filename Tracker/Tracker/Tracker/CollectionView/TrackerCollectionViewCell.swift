@@ -11,7 +11,6 @@ import UIKit
 
 protocol ContextMenuDelegate: AnyObject {
     func contextMenuSecure(_ trackerId: UUID)
-    func contextMenuUnpin(_ trackerId: UUID)
     func contextMenuLeave(_ trackerId: UUID, _ countDay: Int)
     func contextMenuDelete(_ trackerId: UUID)
 }

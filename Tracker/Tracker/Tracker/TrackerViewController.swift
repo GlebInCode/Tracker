@@ -41,6 +41,8 @@ final class TrackerViewController: UIViewController {
     private var selectedFilter: Filter = .all
     private var filterTrackers: [TrackerCategory] = []
     
+    private let analyticsService = AnalyticsService()
+    
     // MARK: - UI Components
     
     private lazy var addTrecarButton: UIButton = {
@@ -73,6 +75,7 @@ final class TrackerViewController: UIViewController {
     
     private lazy var serchLine: UISearchTextField = {
         let searchTextField = UISearchTextField()
+        searchTextField.delegate = self
         searchTextField.textColor = UIColor(named: "Gray")
         searchTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         let emptyStateText = NSLocalizedString("main.search", comment: "Поиск")
@@ -151,6 +154,16 @@ final class TrackerViewController: UIViewController {
         notifyDataChanged()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        analyticsService.sendEvent(event: .open, screen: .Main, item: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        analyticsService.sendEvent(event: .close, screen: .Main, item: nil)
+    }
+    
     deinit {
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(self)
@@ -159,6 +172,7 @@ final class TrackerViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction private func addTracker() {
+        analyticsService.sendEvent(event: .click, screen: .Main, item: .addTrack)
         let creatingTrackerVC = CreatingTrackerViewController()
         self.present(creatingTrackerVC, animated: true, completion: nil)
     }
@@ -194,11 +208,13 @@ final class TrackerViewController: UIViewController {
             filterSerchText = nil
             filterSerchDayTrackers = targetDayTrackers
         }
+        updateSelectFilter()
         showContentOrPlaceholder()
         collectionView.reloadData()
     }
     
     @objc func openFilterMenu() {
+        analyticsService.sendEvent(event: .click, screen: .Main, item: .filter)
         let filterVC = FilterViewController()
         filterVC.delegate = self
         filterVC.selectedFilter = selectedFilter
@@ -258,9 +274,10 @@ final class TrackerViewController: UIViewController {
                     noDataView.removeFromSuperview()
                 } else {
                     filterButton.removeFromSuperview()
-                    layoutFilter()
+                    
                     colorFilterButton()
                     loadDefaultImage(noSearchView)
+                    layoutFilter()
                 }
             } else {
                 
@@ -591,7 +608,7 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackerViewController: TrackerCellDelegate {
     func didTapAddButton(_ id: UUID, _ status: Bool) {
-        
+        analyticsService.sendEvent(event: .click, screen: .Main, item: .track)
         if executedTrackerIds.contains(id) {
             guard let index = completedTrackers.firstIndex(where: { $0.idTracker == id }) else {
                 print("Не нашел трекер во время изменения статуса")
@@ -634,15 +651,13 @@ extension TrackerViewController: ContextMenuDelegate {
         collectionView.reloadData()
     }
     
-    func contextMenuUnpin(_ trackerId: UUID) {
-        
-    }
-    
     func contextMenuLeave(_ trackerId: UUID, _ countDay: Int) {
+        analyticsService.sendEvent(event: .click, screen: .Main, item: .edit)
         leaveTracker(trackerId, countDay)
     }
     
     func contextMenuDelete(_ trackerId: UUID) {
+        analyticsService.sendEvent(event: .click, screen: .Main, item: .delete)
         showActionSheet(trackerId)
     }
     
@@ -697,4 +712,13 @@ extension TrackerViewController: ContextMenuDelegate {
         collectionView.reloadData()
     }
     
+}
+
+// MARK: - Extension: UISearchTextFieldDelegate
+
+extension TrackerViewController: UISearchTextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
 }
