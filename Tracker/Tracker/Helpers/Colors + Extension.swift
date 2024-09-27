@@ -15,6 +15,11 @@ extension UIColor {
     static var ypLightGray: UIColor { UIColor(named: "Light Gray") ?? UIColor.darkGray }
     static var ypRed: UIColor { UIColor(named: "Red") ?? UIColor.darkGray }
     static var ypWhite: UIColor { UIColor(named: "White") ?? UIColor.darkGray }
+    
+    static var ypTabBarGray: UIColor { UIColor(named: "TabBarGray") ?? UIColor.darkGray }
+    static var ypSearchBackground: UIColor { UIColor(named: "SearchBackground") ?? UIColor.darkGray }
+    
+    
 }
 
 extension UIColor {
@@ -48,5 +53,44 @@ extension UIColor {
         }
 
         self.init(red: r, green: g, blue: b, alpha: a)
+    }
+}
+
+extension UIColor {
+    var hex: String? {
+        guard let components = cgColor.components, components.count >= 3 else { return nil }
+        
+        let r = components[0]
+        let g = components[1]
+        let b = components[2]
+        let a = components.count == 4 ? components[3] : 1.0
+        
+        let hexR = String(format: "%02x", Int(r * 255))
+        let hexG = String(format: "%02x", Int(g * 255))
+        let hexB = String(format: "%02x", Int(b * 255))
+        let hexA = String(format: "%02x", Int(a * 255))
+        
+        if a == 1.0 {
+            return "#\(hexR)\(hexG)\(hexB)"
+        } else {
+            return "#\(hexR)\(hexG)\(hexB)\(hexA)"
+        }
+    }
+}
+
+extension UIImage {
+    static func gradientImage(bounds: CGRect, colors: [UIColor]) -> UIImage {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = colors.map(\.cgColor)
+
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+
+        return renderer.image { ctx in
+            gradientLayer.render(in: ctx.cgContext)
+        }
     }
 }

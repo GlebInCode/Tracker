@@ -9,8 +9,10 @@ import UIKit
 
 final class OnboardingViewController: UIPageViewController {
     lazy var pages: [UIViewController] = {
-        let screen1 = OnboardingScreen(nameImage: "BackgroundOnboarding1", texLabel: "Отслеживайте только то, что хотите")
-        let screen2 = OnboardingScreen(nameImage: "BackgroundOnboarding2", texLabel: "Даже если это не литры воды и йога")
+        let emptyStateText1 = NSLocalizedString("onboarding.title1", comment: "Отслеживайте только то, что хотите")
+        let screen1 = OnboardingScreen(nameImage: "BackgroundOnboarding1", texLabel: emptyStateText1)
+        let emptyStateText2 = NSLocalizedString("onboarding.title2", comment: "Даже если это не литры воды и йога")
+        let screen2 = OnboardingScreen(nameImage: "BackgroundOnboarding2", texLabel: emptyStateText2)
 
         return [screen1, screen2]
     }()
@@ -19,6 +21,7 @@ final class OnboardingViewController: UIPageViewController {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
+        pageControl.overrideUserInterfaceStyle = .light
         
         pageControl.currentPageIndicatorTintColor = .ypBlack
         pageControl.pageIndicatorTintColor = .ypBlack .withAlphaComponent(0.3)

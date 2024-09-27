@@ -25,12 +25,14 @@ final class NewCategoryViewController: UIViewController {
 
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
-        lable.text = "Категория"
+        let emptyStateText = NSLocalizedString("newCategoryTracker.title", comment: "Категория")
+        lable.text = emptyStateText
         return lable
     }()
     
     private lazy var categoryNameField: CustomTextFiel = {
-        let textField = CustomTextFiel(placeholder: "Введите название категории")
+        let emptyStateText = NSLocalizedString("newCategoryTracker.name", comment: "Введите название категории")
+        let textField = CustomTextFiel(placeholder: emptyStateText)
         textField.delegate = self
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
@@ -38,9 +40,10 @@ final class NewCategoryViewController: UIViewController {
     
     private lazy var readyButton: UIButton = {
         let button = CustomBlakButton()
-        button.backgroundColor = .ypGray
+//        button.backgroundColor = .ypGray
         button.isEnabled = false
-        button.setTitle("Готово", for: .normal)
+        let emptyStateText = NSLocalizedString("newCategoryTracker.buttonCreate", comment: "Готово")
+        button.setTitle(emptyStateText, for: .normal)
         button.addTarget(self, action: #selector(ready), for: .touchUpInside)
         return button
     }()
@@ -59,10 +62,8 @@ final class NewCategoryViewController: UIViewController {
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             readyButton.isEnabled = true
-            readyButton.backgroundColor = .ypBlack
         } else {
             readyButton.isEnabled = false
-            readyButton.backgroundColor = .ypGray
         }
     }
     

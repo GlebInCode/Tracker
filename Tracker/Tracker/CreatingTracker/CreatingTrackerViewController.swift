@@ -12,6 +12,8 @@ import UIKit
 enum TrackerType {
     case habit
     case event
+    case habitEdit
+    case eventEdit
 }
 
 final class CreatingTrackerViewController: UIViewController {
@@ -20,14 +22,16 @@ final class CreatingTrackerViewController: UIViewController {
     
     private lazy var createHabitButton: UIButton = {
         let button = CustomBlakButton()
-        button.setTitle("Привычка", for: .normal)
+        let emptyStateText = NSLocalizedString("creatingTracker.habit", comment: "Привычка")
+        button.setTitle(emptyStateText, for: .normal)
         button.addTarget(self, action: #selector(createHabit), for: .touchUpInside)
         return button
     }()
     
     private lazy var createEventButton: UIButton = {
         let button = CustomBlakButton()
-        button.setTitle("Нерегулярное событие", for: .normal)
+        let emptyStateText = NSLocalizedString("creatingTracker.event", comment: "Нерегулярное событие")
+        button.setTitle(emptyStateText, for: .normal)
         button.addTarget(self, action: #selector(createEvent), for: .touchUpInside)
         return button
     }()
@@ -42,7 +46,8 @@ final class CreatingTrackerViewController: UIViewController {
     
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
-        lable.text = "Создание трекера"
+        let emptyStateText = NSLocalizedString("creatingTracker.title", comment: "Создание трекера")
+        lable.text = emptyStateText
         return lable
     }()
     

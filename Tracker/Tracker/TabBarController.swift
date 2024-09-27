@@ -16,15 +16,17 @@ class TabBarController: UITabBarController {
     }
     
     private func generateTabBar() {
+        let emptyStateText1 = NSLocalizedString("main.trackers", comment: "Трекеры")
+        let emptyStateText2 = NSLocalizedString("main.statictics", comment: "Статистика")
         viewControllers = [
             generateVC(
                 viewController: TrackerViewController(),
-                title: "Трекер",
+                title: emptyStateText1,
                 image: UIImage(named: "Tracker")
             ),
             generateVC(
                 viewController: StaticticsViewController(),
-                title: "Статистика",
+                title: emptyStateText2,
                 image: UIImage(named: "Statistics")
             )
         ]
@@ -37,7 +39,7 @@ class TabBarController: UITabBarController {
         
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 1.0)
-        topBorder.backgroundColor = UIColor.ypGray.cgColor
+        topBorder.backgroundColor = UIColor.ypTabBarGray.cgColor
         tabBar.layer.addSublayer(topBorder)
         
         return viewController

@@ -36,14 +36,16 @@ final class HabitScheduleViewController: UIViewController {
     
     private lazy var titleView: UILabel = {
         let lable = CustomTitle()
-        lable.text = "Расписание"
+        let emptyStateText = NSLocalizedString("shaduleTracker.title", comment: "Расписание")
+        lable.text = emptyStateText
         return lable
     }()
     
     private lazy var readyButton: UIButton = {
         let button = CustomBlakButton()
         button.backgroundColor = .ypGray
-        button.setTitle("Готово", for: .normal)
+        let emptyStateText = NSLocalizedString("shaduleTracker.buttonCreate", comment: "Готово")
+        button.setTitle(emptyStateText, for: .normal)
         button.addTarget(self, action: #selector(ready), for: .touchUpInside)
         return button
     }()
@@ -82,10 +84,9 @@ final class HabitScheduleViewController: UIViewController {
     private func shouldEnableButton() {
         if daySelections.contains(where: { $0.value }) {
             readyButton.isEnabled = true
-            readyButton.backgroundColor = .ypBlack
         } else {
             readyButton.isEnabled = false
-            readyButton.backgroundColor = .ypGray        }
+        }
     }
     
     private func setupTable() {
@@ -95,19 +96,19 @@ final class HabitScheduleViewController: UIViewController {
     private func printDayOfWeek(_ day: DayOfWeek) -> String{
         switch day {
         case .monday:
-            "Понедельник"
+            NSLocalizedString("shaduleTracker.monday", comment: "Понедельник")
         case .tuesday:
-            "Вторник"
+            NSLocalizedString("shaduleTracker.tuesday", comment: "Вторник")
         case .wednesday:
-            "Среда"
+            NSLocalizedString("shaduleTracker.wednesday", comment: "Среда")
         case .thursday:
-            "Четверг"
+            NSLocalizedString("shaduleTracker.thusday", comment: "Четверг")
         case .friday:
-            "Пятница"
+            NSLocalizedString("shaduleTracker.friday", comment: "Пятница")
         case .saturday:
-            "Суббота"
+            NSLocalizedString("shaduleTracker.saturday", comment: "Суббота")
         case .sunday:
-            "Воскресенье"
+            NSLocalizedString("shaduleTracker.sunday", comment: "Воскресенье")
         }
     }
     

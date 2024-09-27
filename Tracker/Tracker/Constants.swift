@@ -9,4 +9,5 @@ import Foundation
 
 struct Constants {
     static let selectedCategory = "selectedCategory"
+    static let staticticCompleted = "staticticCompleted"
 }

@@ -24,6 +24,7 @@ final class Store {
     
     func getCategoriesTracker() throws -> [TrackerCategory] {
         var categories: [TrackerCategory] = []
+        var isPinnedTrackers: [Tracker] = []
         let request = NSFetchRequest<TrackerCategoryCoreDate>(entityName: "TrackerCategoryCoreDate")
         do {
             let categoriesCoreData = try context.fetch(request)
@@ -42,15 +43,24 @@ final class Store {
                                 schedule = daysOfWeek ?? []
                             }
                             
-                            let tracker = Tracker(id: id, name: name, color: color as! UIColor, emoji: emoji, schedule: schedule)
+                            let tracker = Tracker(id: id, name: name, color: color as! UIColor, emoji: emoji, schedule: schedule, isPinned: trackerCoreData.isPinned)
+                            trackerCoreData.isPinned ?
+                            isPinnedTrackers.append(tracker) :
                             trackers.append(tracker)
+                                
                         }
                     }
                 }
+                
                 if let title = categoryCoreData.title {
                     let category = TrackerCategory(title: title, tracker: trackers)
                     categories.append(category)
                 }
+            }
+            if isPinnedTrackers.count > 0 {
+                let emptyStateText = NSLocalizedString("store.isPinned", comment: "Закрепленные")
+                let categoryIsPinned = TrackerCategory(title: emptyStateText, tracker: isPinnedTrackers)
+                categories.insert(categoryIsPinned, at: 0)
             }
         } catch {
             throw error

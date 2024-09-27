@@ -1,0 +1,79 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Глеб Хамин on 11.09.2024.
+  
+*/
+"store.isPinned" = "Закрепленные";
+
+"onboarding.title1" = "Отслеживайте только то, что хотите";
+"onboarding.title2" = "Даже если это не литры воды и йога";
+"onboarding.button" = "Вот это технологии!";
+
+"main.trackers" = "Трекеры";
+"main.search" = "Поиск";
+"main.statictics" = "Статистика";
+"main.placeholder" = "Что будем отслеживать?";
+"main.noSearch" = "Ничего не найдено";
+"main.filters" = "Фильтры";
+"main.filters.all" = "Все трекеры";
+"main.filters.today" = "Трекеры на сегодня";
+"main.filters.completed" = "Завершенные";
+"main.filters.unfinished" = "Не завершенные";
+"main.alert.title" = "Уверены что хотите удалить трекер?";
+"main.alert.delete" = "Удалить";
+"main.alert.cancel" = "Отмена";
+
+"main.cell.isNotPinned" = "Открепить";
+"main.cell.isPinned" = "Закрепить";
+"main.cell.edit" = "Редактировать";
+
+"statistic.title" = "Статистика";
+"statistic.placeholder" = "Анализировать пока нечего";
+"statistic.completed" = "трекеров завершено";
+
+"creatingTracker.title" = "Создание трекера";
+"creatingTracker.habit" = "Привычка";
+"creatingTracker.event" = "Нерегулярные события";
+
+"settingTracker.titleHabit" = "Новая привычка";
+"settingTracker.titleEvent" = "Новое нерегулярное событие";
+"settingTracker.titleHabitEdit" = "Редактирование привычки";
+"settingTracker.titleEventEdit" = "Редактирование события";
+"settingTracker.nameTracker" = "Введите название трекера";
+"settingTracker.categoryTracker" = "Категория";
+"settingTracker.sheduleTracker" = "Расписание";
+"settingTracker.emojiTracker" = "Emoji";
+"settingTracker.colorTracker" = "Цвет";
+"settingTracker.buttonCancel" = "Отменить";
+"settingTracker.buttonCreate.create" = "Создать";
+"settingTracker.buttonCreate.save" = "Сохранить";
+"settingTracker.nameCountLimitation" = "Ограничение 38 символов";
+
+"settingTracker.sheduleTracker.everyDay" = "Каждый день";
+"settingTracker.sheduleTracker.monday" = "Пн";
+"settingTracker.sheduleTracker.tuesday" = "Вт";
+"settingTracker.sheduleTracker.wednesday" = "Ср";
+"settingTracker.sheduleTracker.thusday" = "Чт";
+"settingTracker.sheduleTracker.friday" = "Пт";
+"settingTracker.sheduleTracker.saturday" = "Сб";
+"settingTracker.sheduleTracker.sunday" = "Вс";
+
+"categoryTracker.title" = "Категория";
+"categoryTracker.placeholder" = "Привычки и события можно объединять по смыслу";
+"categoryTracker.buttonAddCategory" = "Добавить категорию";
+
+"newCategoryTracker.title" = "Новая категория";
+"newCategoryTracker.name" = "Введите название категории";
+"newCategoryTracker.buttonCreate" = "Готово";
+
+"shaduleTracker.title" = "Расписание";
+"shaduleTracker.monday" = "Понедельник";
+"shaduleTracker.tuesday" = "Вторник";
+"shaduleTracker.wednesday" = "Среда";
+"shaduleTracker.thusday" = "Четверг";
+"shaduleTracker.friday" = "Пятница";
+"shaduleTracker.saturday" = "Суббота";
+"shaduleTracker.sunday" = "Воскресенье";
+"shaduleTracker.buttonCreate" = "Готово";

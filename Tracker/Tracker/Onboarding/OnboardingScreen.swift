@@ -23,6 +23,7 @@ final class OnboardingScreen: UIViewController {
     
     private lazy var label: UILabel = {
         let label = UILabel()
+        label.overrideUserInterfaceStyle = .light
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -35,7 +36,9 @@ final class OnboardingScreen: UIViewController {
     
     private lazy var button: CustomBlakButton = {
         let button = CustomBlakButton()
-        let text = "Вот это технологии!"
+        button.overrideUserInterfaceStyle = .light
+        let emptyStateText = NSLocalizedString("onboarding.button", comment: "Вот это технологии!")
+        let text = emptyStateText
         button.setTitle(text, for: .normal)
         button.addTarget(self, action: #selector(start), for: .touchUpInside)
         return button

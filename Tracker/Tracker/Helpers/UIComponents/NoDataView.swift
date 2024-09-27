@@ -23,10 +23,11 @@ final class NoDataView: UIView {
     
     private lazy var lableNoContent: UILabel = {
         let label = UILabel()
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         let text = "Что будем отслеживать?"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
         
         let attributedText = NSMutableAttributedString(string: text)
 
